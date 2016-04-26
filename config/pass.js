@@ -11,8 +11,8 @@ module.exports = function(app) {
       app.use(passport.session());
 
   passport.use(new Strategy({
-   clientID: 1275710835790570,
-   clientSecret: "2c3f8000d4dd244299d6bb7531748e35",
+   clientID: env.process.FB.KEY,
+   clientSecret: env.process.FB.SECRET,
    callbackURL: 'http://localhost:8080/login/facebook/return' || 'http://http://enig-matic.herokuapp.com/login/facebook/return',
    profileFields: ['id', 'displayName', 'email'],
    enableProof: true
