@@ -18,7 +18,7 @@ app.use(require('morgan')('dev'));
 
 
 require('./config/pass.js')(app);
-require('./config/auth.js')(app);
+// require('./config/auth.js')(app);
 require('./routes/passport.js')(app);
 
 app.listen(port, function(){

@@ -28,9 +28,10 @@ module.exports = function(app) {
 
 
      if (err) {
-       console.log("things broke")
+       console.log("things broke");
        return done(err)
      }
+
      if (!user) {
        console.log('making new person, no one found');
        var newUser = new User();
@@ -53,11 +54,13 @@ module.exports = function(app) {
              return done(err,user);
            }
        }); //<--newUser.save
+
      }else {
-         User.findOneAndUpdate({ '_id' : profile.id }, function(err, user){
-           console.log('THIS IS FOUND AND UPDATED: ', user);
-           return done(err,user);
-         });
+        //  User.findOneAndUpdate({ '_id' : profile.id }, function(err, user){
+        //    console.log('THIS IS FOUND AND UPDATED: ', user);
+        //    return done(err,user);
+        //  });
+         return done(err,user);
      }
 
    }); //<---user findOne
