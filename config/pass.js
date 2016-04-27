@@ -1,7 +1,5 @@
-// console.log('pass.js');
-
-
 module.exports = function(app) {
+
   var passport      = require('passport'),
       localStrategy = require('passport-local'),
       mongoose      = require('mongoose'),
@@ -11,17 +9,16 @@ module.exports = function(app) {
       app.use(passport.session());
 
   passport.use(new Strategy({
-   clientID: 1275710835790570,
-   clientSecret: "2c3f8000d4dd244299d6bb7531748e35",
-   callbackURL: 'http://localhost:8080/login/facebook/return' || 'http://http://enig-matic.herokuapp.com/login/facebook/return',
+   clientID: process.env.MEDTRAKR_FB_SECRET_KEY,
+   clientSecret: process.env.MEDTRAKR_FB_SECRET,
+   callbackURL: 'http://localhost:8080/login/facebook/return' || 'http://http://medtrakr.herokuapp.com/login/facebook/return',
    profileFields: ['id', 'displayName', 'email'],
    enableProof: true
   },
   function(accessToken, refreshToken, profile, done){
-   // console.log('this is new Strategy user profile: ', profile);
-   // console.log('this is the access token: ', accessToken);
-   // console.log('this is the refresh token: ', refreshToken);
-   // console.log('these are your friends: ', profile._json.friends.data);
+   console.log('this is new Strategy user profile: ', profile);
+   console.log('this is the access token: ', accessToken);
+   console.log('this is the refresh token: ', refreshToken);
    var theAccessToken = accessToken;
    var theRefreshToken = refreshToken;
 
@@ -39,8 +36,8 @@ module.exports = function(app) {
        var newUser = new User();
 
        newUser._id                        = profile.id;
-       newUser.userProfile.displayName    = profile.displayName;
-       newUser.userProfile.email          = profile.emails[0].value;
+       newUser.displayName                = profile.displayName;
+       newUser.email                      = profile.emails[0].value;
        newUser.provider                   = 'facebook';
        newUser.providerData.accessToken   = theAccessToken;
        newUser.providerData.resfreshToken = theRefreshToken;
@@ -56,22 +53,16 @@ module.exports = function(app) {
              return done(err,user);
            }
        }); //<--newUser.save
-
-
-
      }else {
-         User.findOneAndUpdate({ '_id' : profile.id }, { 'friends' : profile._json.friends.data}, function(err, user){
+         User.findOneAndUpdate({ '_id' : profile.id }, function(err, user){
            console.log('THIS IS FOUND AND UPDATED: ', user);
            return done(err,user);
          });
-
      }
 
    }); //<---user findOne
 
   }));
-
-
 
 
 }

@@ -1,6 +1,6 @@
-console.log('auth.js');
 
 module.exports = function(app) {
+
   var passport      = require('passport'),
       localStrategy = require('passport-local'),
       mongoose      = require('mongoose'),
@@ -21,4 +21,5 @@ module.exports = function(app) {
          done(err, user);
      });
   });
+  
 }
