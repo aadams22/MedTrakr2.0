@@ -70,7 +70,7 @@ module.exports = function(app) {
   function isLoggedIn(req, res, next) {
       if (req.isAuthenticated())
           return next();
-          console.log('========!!!!!is authenticated!!!!!========')
+          // console.log('========!!!!!is authenticated!!!!!========')
       res.redirect('/');
   }
 
