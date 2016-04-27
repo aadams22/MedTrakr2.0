@@ -24,7 +24,7 @@ module.exports = function(app) {
 
 
    User.findOne({ '_id' : profile.id }, function(err, user) {
-     console.log('this is find or create user ');
+     console.log('this is find or create user ', user);
 
 
      if (err) {

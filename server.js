@@ -7,7 +7,7 @@ var express        = require('express'),
 
 
 
-var mongoURI = process.env.MONGOLAB_URI || 'mongodb://localhost/27107/medtrakr';
+var mongoURI = process.env.MONGOLAB_URI || 'mongodb://localhost/medtrakr';
 mongoose.connect(mongoURI);
 
 app.use(express.static('public'));

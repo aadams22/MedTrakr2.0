@@ -1,6 +1,7 @@
 console.log("routes/passport.js");
 module.exports = function(app) {
   var passport = require('passport');
+  var mongoose = require('mongoose');
   app.use(passport.initialize());
   app.use(passport.session());
 
