@@ -19,7 +19,7 @@ module.exports = function(app) {
 
   //FACEBOOK OAUTH CALLBACK
   app.get('/login/facebook/return',
-    passport.authenticate('facebook', { failureRedirect: '/' }),
+  passport.authenticate('facebook', { failureRedirect: '/' }),
     function(req,res){
       console.log('redirecting because user is logged in with FB');
       res.redirect('/#/user');
