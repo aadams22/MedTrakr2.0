@@ -10,13 +10,15 @@ module.exports = function(app) {
   app.use(passport.session());
 
   passport.use(new LocalStrategy(
-    function (username, password, done) {
+    function (email, password, done) {
 
-        User.findOne({username: username}, function (err, user) {
-
-            if (err) return done(err);
-
-            if (!user) return done(null, false, {alert: 'Incorrect username.'});
+        User.findOne({ email : email }, function (err, user) {
+            console.log(user);
+            if (err) {
+              console.log(err);
+              return done(err);
+            }
+            if (!user) return done(null, false, {alert: 'Incorrect email.'});
 
             if (user.password != password) {
                 return done(null, false, {alert: 'Incorrect password.'});
@@ -29,19 +31,21 @@ module.exports = function(app) {
 
 
 app.post('/signup', function(req, res) {
-
+      console.log('this is signup ');
       var user =  new User();
 
-      user.email = req.body.email;
-      user.password = req.body.password;
-      user.lastName = req.body.lastname;
+      user._id       = true;
+      user.email     = req.body.email;
+      user.password  = req.body.password;
+      user.lastName  = req.body.lastname;
       user.firstName = req.body.firstname;
 
       user.save(function(err){
           if (err) {
-              res.json({'alert':'Registration error'});
+              console.log(err);
+              res.json({ 'alert':'Registration error' });
           }else{
-              res.json({'alert':'Registration success'});
+              res.json({ 'alert':'Registration success' });
           }
       });
   });

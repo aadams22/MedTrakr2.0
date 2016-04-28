@@ -28,7 +28,7 @@ app.config(['$routeProvider',
 
 app.controller('AuthController', ['$scope', '$http', '$location', function($scope,$http,$location) {
 
-    $scope.user  = { username:'', password:'' };
+    $scope.user  = { email:'', password:'' };
     $scope.alert = '';
 
     $scope.login = function(user){
