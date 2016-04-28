@@ -3,11 +3,11 @@
     <div ng-show="alert" id="login-alert" class="alert alert-danger">{{alert}}</div>
 
     <form id="loginform" role="form">
-        <input id="login-username" type="text" class="form-control" ng-model="user.username" value="" placeholder="email">
+        <input id="login-username" type="text" class="form-control" ng-model="user.email" value="" placeholder="email">
         <input id="login-password" type="password" class="form-control" ng-model="user.password" placeholder="password">
 
         <div class="login-buttons">
-          <a id="btn-login"   class="btn btn-success" ng-click="authCtrl.login(user)">Login</a>
+          <a id="btn-login" ng-click="login(user)">Login</a>
           <a id="btn-fblogin"  href="/login/facebook">Login with Facebook</a>
         </div>
 

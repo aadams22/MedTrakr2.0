@@ -6,7 +6,7 @@ module.exports = function(app) {
 
 
   app.use(require('body-parser').urlencoded({ extended: true }));
-  app.use(require('express-session')({ secret: 'sunny yesterday my life was feelin grey', resave: true, saveUninitialized: true}));
+  app.use(require('express-session')({ secret: 'dearly beloved we are bathered here today to get through this thing called life', resave: true, saveUninitialized: true}));
   app.use(passport.initialize());
   app.use(passport.session());
 
@@ -23,23 +23,6 @@ module.exports = function(app) {
     function(req,res){
       console.log('redirecting because user is logged in with FB');
       res.redirect('/#/user');
-  });
-
-  //LOCAL LOGIN
-  app.post('/login',
-    passport.authenticate('local', { failureRedirect: '/' }),
-    function(req,res){
-      console.log('login accessed', res);
-      res.json(req.user);
-  });
-
-  //LOCAL SIGNUP
-  app.get('/signup',
-    passport.authenticate('user', { failureRedirect: '/' }),
-    function(req,res){
-      console.log('signup accessed', res);
-
-      res.redirect('/');
   });
 
   //JSON

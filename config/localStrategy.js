@@ -5,9 +5,10 @@ module.exports = function(app) {
       User          = require('../models/user.js');
 
   app.use(require('body-parser').urlencoded({ extended: true }));
-  app.use(require('express-session')({ secret: 'sunny yesterday my life was feelin grey', resave: true, saveUninitialized: true}));
+  app.use(require('express-session')({ secret: 'dearly beloved we are bathered here today to get through this thing called life', resave: true, saveUninitialized: true}));
   app.use(passport.initialize());
   app.use(passport.session());
+
 
   passport.use(new LocalStrategy(
     function (email, password, done) {
@@ -27,14 +28,13 @@ module.exports = function(app) {
         });
     }
 
-));
+  ));
 
-
-app.post('/signup', function(req, res) {
+  //LOCAL SIGNUP ROUTE
+  app.post('/signup', function(req, res) {
       console.log('this is signup ');
       var user =  new User();
 
-      user._id       = true;
       user.email     = req.body.email;
       user.password  = req.body.password;
       user.lastName  = req.body.lastname;
@@ -43,11 +43,22 @@ app.post('/signup', function(req, res) {
       user.save(function(err){
           if (err) {
               console.log(err);
-              res.json({ 'alert':'Registration error' });
+              res.json({ 'alert' : 'Registration error' });
           }else{
-              res.json({ 'alert':'Registration success' });
+              res.json({ 'alert' : 'Registration success' });
+              res.redirect('/#/user');
           }
       });
+
   });
+
+  //LOCAL LOGIN
+  app.post('/login',
+    passport.authenticate('local', { failureRedirect: '/' }),
+    function(req,res){
+      console.log('login accessed', res);
+      res.json(req.user);
+  });
+
 
 }
