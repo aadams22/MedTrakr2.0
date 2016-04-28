@@ -1,12 +1,15 @@
-module.exports = function(app) {
+module.exports = function(app, passport, mongoose) {
 
-  var passport = require('passport');
-  var mongoose = require('mongoose');
+  //requiring user model
   var User     = require('../models/user.js');
 
-
+  //setting up middleware for routes: body-parser, session, passport
   app.use(require('body-parser').urlencoded({ extended: true }));
-  app.use(require('express-session')({ secret: 'dearly beloved we are bathered here today to get through this thing called life', resave: true, saveUninitialized: true}));
+  app.use(require('express-session')({
+    secret: 'dearly beloved we are bathered here today to get through this thing called life',
+    resave: true,
+    saveUninitialized: true
+  }));
   app.use(passport.initialize());
   app.use(passport.session());
 
@@ -21,13 +24,11 @@ module.exports = function(app) {
   app.get('/login/facebook/return',
   passport.authenticate('facebook', { failureRedirect: '/' }),
     function(req,res){
-      console.log('redirecting because user is logged in with FB');
       res.redirect('/#/user');
   });
 
   //JSON
   app.get('/json', function(req, res){
-    console.log(user.id);
     User.findById(user.id, function(err, data){
       res.send(data);
     });
@@ -49,14 +50,11 @@ module.exports = function(app) {
   }
 
   passport.serializeUser(function(user, done) {
-    console.log('PASSPORT SERIALIZEUSER: ', user.id);
      done(null, user.id);
   });
 
   passport.deserializeUser(function(id, done) {
-     console.log('PASSPORT DE-SERIALIZEUSER: ', id);
      User.findById(id, function(err, user) {
-       console.log('PASSPORT DE-SERIALIZEUER user ', user);
          done(err, user);
      });
   });
@@ -64,4 +62,4 @@ module.exports = function(app) {
 
 
 
-}
+} //<--module exports

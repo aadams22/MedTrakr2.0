@@ -1,14 +1,14 @@
-module.exports = function(app) {
+module.exports = function(app, passport, mongoose) {
 
-  var passport         = require('passport'),
-      mongoose         = require('mongoose'),
-      facebookStrategy = require('passport-facebook').Strategy,
-      User             = require('../models/user.js');
+  //Requiring facebook strategy and the user model
+  var FacebookStrategy = require('passport-facebook').Strategy;
+  var User             = require('../models/user.js');
 
+  //initializing passport and passport session
   app.use(passport.initialize());
   app.use(passport.session());
 
-  passport.use(new facebookStrategy({
+  passport.use(new FacebookStrategy({
    clientID: process.env.MEDTRAKR_FB_SECRET_KEY,
    clientSecret: process.env.MEDTRAKR_FB_SECRET,
    callbackURL: 'http://localhost:8080/login/facebook/return' || 'http://http://medtrakr.herokuapp.com/login/facebook/return',
@@ -16,55 +16,41 @@ module.exports = function(app) {
    enableProof: true
   },
   function(accessToken, refreshToken, profile, done){
-   console.log('this is new Strategy user profile: ', profile);
-   console.log('this is the access token: ', accessToken);
-  //  console.log('this is the refresh token: ', refreshToken);
-   var theAccessToken = accessToken;
-   var theRefreshToken = refreshToken;
-   console.log('this is fb firstname: ', profile.displayName.split(' ')[0]);
-   console.log('this is fb lastname: ', profile.displayName.split(' ')[1]);
+    
+     process.nextTick(function() {
+         //find user by facebook id, setting to string for unifomrity with the ObjectId of those not logging in with facebook
+         User.findOne({ '_id' : String(profile.id) }, function(err, user) {
+           //return error if error occurs
+           if (err) { return done(err) }
+           //if no user found create new user
+           if (!user) {
+             var newUser = new User();
 
-   process.nextTick(function() {
+             newUser._id                        = String(profile.id);
+             newUser.firstName                  = profile.displayName.split(' ')[0];
+             newUser.lastName                   = profile.displayName.split(' ')[1];
+             newUser.email                      = profile.emails[0].value;
+             newUser.provider                   = 'facebook';
+             newUser.providerData.accessToken   = accessToken;
+             newUser.providerData.resfreshToken = refreshToken;
 
-       User.findOne({ '_id' : profile.id }, function(err, user) {
-         console.log('this is find or create user ', user);
+             //save new user
+             newUser.save(function(err){
+               if (err) {
+                 throw err;
+                 return done(null, newUser);
+               }else {
+                   //return created user so that it will redirect to logged in page
+                   return done(err, newUser);
+               }
+              }); //<--newUser.save
+           //if user found, return user
+           }else { return done(err,user); } //<--if
 
+         }); //<---user findOne
+      }) //<--nextTick
+    } //<--then function
 
-         if (err) {
-           console.log("things broke");
-           return done(err)
-         }
-         if (!user) {
-           console.log('making new person, no one found');
-           var newUser = new User();
+  )); //<--fb passport middleware
 
-           newUser._id                        = profile.id;
-           newUser.firstName                  = profile.displayName.split(' ')[0];
-           newUser.lastName                   = profile.displayName.split(' ')[1];
-           newUser.email                      = profile.emails[0].value;
-           newUser.provider                   = 'facebook';
-           newUser.providerData.accessToken   = theAccessToken;
-           newUser.providerData.resfreshToken = theRefreshToken;
-
-
-           newUser.save(function(err){
-             console.log("THIS USER IS NEW: ", newUser)
-             if (err) {
-               throw err;
-               return done(null, newUser);
-             }else {
-                 console.log("NEW USER SAVED", newUser);
-                 return done(err, newUser);
-             }
-            }); //<--newUser.save
-
-         }else { return done(err,user); } //<--if
-
-       }); //<---user findOne
-    }) //<--nextTick
-  }
-
-));
-
-
-}
+} //<--module exports

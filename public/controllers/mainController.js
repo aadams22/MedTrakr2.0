@@ -5,6 +5,7 @@ app.controller('MainController', [function(){
 
 }]);
 
+//route configuration to set partials for authentication 
 app.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
@@ -55,18 +56,6 @@ app.controller('AuthController', ['$scope', '$http', '$location', function($scop
             });
 
     };
-
-    // $scope.userinfo = function() {
-    //     $http.get('/currentuser').
-    //         success(function (data) {
-    //             $scope.loggeduser = data;
-    //         }).
-    //         error(function () {
-    //             $scope.alert = 'Login failed'
-    //         });
-    // };
-
-
 
     $scope.logout = function(){
       console.log('logged out');
