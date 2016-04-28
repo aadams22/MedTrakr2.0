@@ -13,6 +13,8 @@ var userSchema = new Schema({
           required: true
           },
   displayName: { type: String },
+  firstName: { type: String },
+  lastName: { type: String },
   providerData: {
               accessToken:  { type: String } ,
               refreshToken: { type: String }

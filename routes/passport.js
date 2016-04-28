@@ -12,12 +12,6 @@ module.exports = function(app) {
 
 
 
-  //LOGOUT
-  app.get('/logout', function(req, res) {
-      req.logout();
-      res.redirect('/');
-  });
-
   //FACEBOOK OAUTH
   app.get('/login/facebook',
     passport.authenticate('facebook',  { scope: ['email'] })
@@ -28,16 +22,18 @@ module.exports = function(app) {
     passport.authenticate('facebook', { failureRedirect: '/' }),
     function(req,res){
       console.log('redirecting because user is logged in with FB');
-      res.redirect('/user');
+      res.redirect('/#/user');
   });
 
+  //LOCAL LOGIN
   app.post('/login',
     passport.authenticate('local', { failureRedirect: '/' }),
     function(req,res){
       console.log('login accessed', res);
-      res.redirect('/user');
+      res.json(req.user);
   });
 
+  //LOCAL SIGNUP
   app.get('/signup',
     passport.authenticate('user', { failureRedirect: '/' }),
     function(req,res){
@@ -46,7 +42,7 @@ module.exports = function(app) {
       res.redirect('/');
   });
 
-
+  //JSON
   app.get('/json', function(req, res){
     console.log(user.id);
     User.findById(user.id, function(err, data){
@@ -54,14 +50,11 @@ module.exports = function(app) {
     });
   });
 
-  app.get('/user', function(req, res){
-    console.log("THIS IS REQ.USER: ", req.user.id);
-    User.findById(req.user.id, function(err, data){
-      console.log(data);
-      if (err) { console.log('this is error: ', err); }
-
-      res.render('index.html', { user : data });
-    });
+  //LOGOUT
+  app.get('/logout', function(req, res) {
+      console.log("--is logged out--");
+      req.logout();
+      res.redirect('/');
   });
 
 
