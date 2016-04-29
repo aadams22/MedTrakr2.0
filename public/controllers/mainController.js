@@ -5,7 +5,7 @@ app.controller('MainController', [function(){
 
 }]);
 
-//route configuration to set partials for authentication 
+//route configuration to set partials for authentication
 app.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
@@ -32,6 +32,34 @@ app.controller('AuthController', ['$scope', '$http', '$location', function($scop
     $scope.user  = { email:'', password:'' };
     $scope.alert = '';
 
+    var validation = {
+        isEmailAddress:function(str) {
+            var pattern =/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            return pattern.test(str);  // returns a boolean
+        },
+        isNotEmpty:function (str) {
+            var pattern =/\S+/;
+            return pattern.test(str);  // returns a boolean
+        },
+        hasNumber:function(str) {
+            var pattern = /^(?=.*\d).+$/;
+            return pattern.test(str);  // returns a boolean
+        },
+        isSame:function(str1,str2){
+            return str1 === str2;
+        }
+    };
+
+    function userValidation(user) {
+      if (validation.isNotEmpty(user.email) == false) { return $scope.alert = 'Please add an email.' }
+      else if (validation.isNotEmpty(user.firstname) == false) { return $scope.alert = 'Please add your first name.' }
+      else if (validation.isNotEmpty(user.lastname) == false) { return  $scope.alert = 'Please add your last name.' }
+      else if (validation.isEmailAddress(user.email) == false) { return $scope.alert = 'Enter valid email.' }
+      else if (validation.hasNumber(user.password) == false) { return $scope.alert = 'Password must include a number.' }
+      else if (validation.isSame(user.password,user.password_verify) == false) { return $scope.alert = 'Your passwords don\'t match.' }
+      else { return true };
+    }
+
     $scope.login = function(user){
         console.log('login accessed');
         $http.post('/login', user).
@@ -46,7 +74,9 @@ app.controller('AuthController', ['$scope', '$http', '$location', function($scop
     };
 
     $scope.signup = function(user){
-      console.log('signup accessed');
+      console.log('signup accessed', user);
+      if (userValidation(user) == true) {
+        console.log(userValidation(user));
         $http.post('/signup', user).
             success(function(data) {
                 $scope.alert = data.alert;
@@ -54,7 +84,7 @@ app.controller('AuthController', ['$scope', '$http', '$location', function($scop
             error(function() {
                 $scope.alert = 'Registration failed'
             });
-
+      }
     };
 
     $scope.logout = function(){
@@ -63,10 +93,10 @@ app.controller('AuthController', ['$scope', '$http', '$location', function($scop
             .success(function() {
                 $scope.loggeduser = {};
                 $location.path('/signin');
-
             })
             .error(function() {
                 $scope.alert = 'Logout failed'
             });
     };
+
 }]);

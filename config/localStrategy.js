@@ -1,13 +1,13 @@
 module.exports = function(app, passport, mongoose) {
 
   //Requiring local strategy and the user model
-  var LocalStrategy = require('passport-local'),
-      User          = require('../models/user.js');
+  var LocalStrategy = require('passport-local');
+  var User          = require('../models/user.js');
 
   //Setting up middleware
   app.use(require('body-parser').urlencoded({ extended: true }));
   app.use(require('express-session')({
-    secret: 'dearly beloved we are bathered here today to get through this thing called life',
+    secret: 'dearly beloved we are gathered here today to get through this thing called life',
     resave: true,
     saveUninitialized: true
   }));
@@ -25,13 +25,14 @@ module.exports = function(app, passport, mongoose) {
             if (!user) return done(null, false, {alert: 'Incorrect email.'});
 
             if (user.password != password) {
-                return done(null, false, {alert: 'Incorrect password.'});
+                return done(null, false, { alert: 'Incorrect password.' });
             }
             return done(null, user);
         });
     }
 
   ));
+
 
   //LOCAL SIGNUP ROUTE
   app.post('/signup', function(req, res) {
@@ -43,13 +44,16 @@ module.exports = function(app, passport, mongoose) {
       user.lastName  = req.body.lastname;
       user.firstName = req.body.firstname;
 
-      user.save(function(err){
-          if (err) {
-              res.json({ 'alert' : 'Registration error' });
-          }else{
-              res.json({ 'alert' : 'Registration success! Please proceed to login.' });
-          }
-      });
+
+        user.save(function(err){
+            if (err) {
+                res.json({ 'alert' : 'Registration error' });
+            }else{
+                res.json({ 'alert' : 'Registration success! Please proceed to login.' });
+            }
+        });
+
+
 
   });
 

@@ -13,34 +13,40 @@
         </div>
 
         <div class="form-group">
-            <label for="email" class="col-md-3 control-label">Email</label>
-            <input type="text" class="form-control" ng-model="user.email" placeholder="Email Address">
+            <label for="email">Email</label>
+            <input type="text" ng-model="user.email" ng-pattern="^(?=[A-Z0-9._%+-]{6,254}$)[A-Z0-9._%+-]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,8}[A-Z]{2,63}$" placeholder="Email Address">
         </div>
 
         <div class="form-group">
-            <label for="firstname" class="col-md-3 control-label">First Name</label>
-            <input type="text" class="form-control" ng-model="user.firstname" placeholder="First Name">
+            <label for="firstname">First Name</label>
+            <input type="text" ng-model="user.firstname" placeholder="First Name">
         </div>
 
         <div class="form-group">
-            <label for="lastname" class="col-md-3 control-label">Last Name</label>
-            <input type="text" class="form-control" ng-model="user.lastname" placeholder="Last Name">
+            <label for="lastname">Last Name</label>
+            <input type="text" ng-model="user.lastname" placeholder="Last Name">
         </div>
 
         <div class="form-group">
-            <label for="password" class="col-md-3 control-label">Password</label>
-            <input type="password" class="form-control" ng-model="user.password" placeholder="Password">
-        </div>
-
-
-        <div class="form-group">
-          <button id="btn-signup" type="button" class="btn btn-info" ng-click="signup(user)"><i class="icon-hand-right"></i> &nbsp Sign Up</button>
-          <span style="margin-left:8px;">or</span>
+            <label for="password">Password</label>
+            <input type="password" name="password" ng-model="user.password" placeholder="Password" required>
         </div>
 
         <div class="form-group">
-          <a href="/login/facebook">Sign Up with Facebook</a>
+            <label for="password">Confirm Password</label>
+            <input type="password" ng-model="user.password_verify" name="confirm_password" placeholder="Confirm Password" required data-password-verify="user.password">
         </div>
+
+        <!-- <input type="password" ng-minlength="8" ng-model="user.password" equals="{{password2}}" required>
+        <input type="password" ng-model="password2" equals="{{user.password}}" required> -->
+
+
+        <div class="form-group">
+          <button id="btn-signup" type="button" ng-click="signup(user)"><i class="icon-hand-right"></i> &nbsp Sign Up</button>
+          <span>or</span>
+        </div>
+
+        <div><a href="/login/facebook">Sign Up with Facebook</a></div>
 
       </form>
   </div>
