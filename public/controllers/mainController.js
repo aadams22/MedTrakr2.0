@@ -80,7 +80,7 @@ app.controller('AuthController', ['$scope', '$http', '$location', function($scop
     $scope.signup = function(user){
       //refers to userValidation callback to validate user signup information.
       //it will not proceed to save the user if user information is not validated
-      if (userValidation(user)) {
+      if (userValidation(user) == true) {
         console.log("it's saving ", userValidation(user));
         $http.post('/signup', user).
             success(function(data) {

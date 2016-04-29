@@ -2,7 +2,7 @@ var express        = require('express'),
     methodOverride = require('method-override'),
     bodyParser     = require('body-parser'),
     mongoose       = require('mongoose'),
-    passport         = require('passport'),
+    passport       = require('passport'),
     port           = process.env.PORT || 8080,
     app            = express();
 
