@@ -48,20 +48,23 @@ app.controller('AuthController', ['$scope', '$http', '$location', function($scop
         isSame:function(str1,str2){
             return str1 === str2;
         }
+
     };
 
+    //callback used for validating user signup information returns message to user to define the issue
     function userValidation(user) {
-      if (validation.isNotEmpty(user.email) == false) { return $scope.alert = 'Please add an email.' }
-      else if (validation.isNotEmpty(user.firstname) == false) { return $scope.alert = 'Please add your first name.' }
-      else if (validation.isNotEmpty(user.lastname) == false) { return  $scope.alert = 'Please add your last name.' }
-      else if (validation.isEmailAddress(user.email) == false) { return $scope.alert = 'Enter valid email.' }
-      else if (validation.hasNumber(user.password) == false) { return $scope.alert = 'Password must include a number.' }
-      else if (validation.isSame(user.password,user.password_verify) == false) { return $scope.alert = 'Your passwords don\'t match.' }
+      if (!validation.isNotEmpty(user.email)) { return $scope.alert = 'Please add an email.' }
+      else if (!validation.isNotEmpty(user.firstname)) { return $scope.alert = 'Please add your first name.' }
+      else if (!validation.isNotEmpty(user.lastname)) { return  $scope.alert = 'Please add your last name.' }
+      else if (!validation.isEmailAddress(user.email)) { return $scope.alert = 'Enter valid email.' }
+      else if (!validation.hasNumber(user.password)) { return $scope.alert = 'Password must include a number.' }
+      else if (user.password.length < 8) { return $scope.alert = 'Your password must be at least 8 characters long.' }
+      else if (!validation.isSame(user.password,user.password_verify)) { return $scope.alert = 'Your passwords don\'t match.' }
       else { return true };
     }
 
+    //LOGIN REQUEST
     $scope.login = function(user){
-        console.log('login accessed');
         $http.post('/login', user).
             success(function(data) {
                 $scope.loggeduser = data;
@@ -73,10 +76,12 @@ app.controller('AuthController', ['$scope', '$http', '$location', function($scop
 
     };
 
+    //SIGNUP REQUEST
     $scope.signup = function(user){
-      console.log('signup accessed', user);
-      if (userValidation(user) == true) {
-        console.log(userValidation(user));
+      //refers to userValidation callback to validate user signup information.
+      //it will not proceed to save the user if user information is not validated
+      if (userValidation(user)) {
+        console.log("it's saving ", userValidation(user));
         $http.post('/signup', user).
             success(function(data) {
                 $scope.alert = data.alert;
@@ -87,8 +92,8 @@ app.controller('AuthController', ['$scope', '$http', '$location', function($scop
       }
     };
 
+    //LOGOUT REQUEST
     $scope.logout = function(){
-      console.log('logged out');
         $http.get('/logout')
             .success(function() {
                 $scope.loggeduser = {};
