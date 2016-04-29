@@ -31,11 +31,6 @@ body {
 
 }
 
-
-#signupalert {
-  width: 80%;
-}
-
 #signupbox { text-align: center; }
 #loginbox { text-align: center; }
 
@@ -57,7 +52,9 @@ body {
   border-radius: 8px;
 }
 
+#signupalert { width: 80%; }
 h3 > a > span { font-family: back-icon; }
+label { font-size: 10px; }
 
 #loginform > input:nth-of-type(1) { font-family: email-icon; }
 #loginform > input:nth-of-type(2) { font-family: password-icon; }

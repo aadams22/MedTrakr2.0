@@ -15,6 +15,7 @@
           <input type="text" ng-model="user.lastname" placeholder=" &#xE803  Last Name"><br/>
           <input type="password" name="password" ng-model="user.password" placeholder=" &#xE802  Password" required><br/>
           <input type="password" ng-model="user.password_verify" name="confirm_password" placeholder=" &#xE802  Confirm Password" required data-password-verify="user.password"><br/>
+          <label for="password">Password must be at least 8 characters and include a number.</label>
           <button id="btn-signup" type="button" ng-click="signup(user)"><i class="icon-hand-right"></i> &nbsp Sign Up</button>
 
 
