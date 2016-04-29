@@ -31,10 +31,7 @@ body {
 }
 
 #signupbox { border: 1px solid white; text-align: center; }
-#signupalert > span {}
-h3 > a > span {
-  font-family: back-icon;
-}
+/*#signupalert > span {}*/
 
 #loginbox {
   border: 1px solid white;
@@ -59,6 +56,8 @@ h3 > a > span {
   border-radius: 8px;
 }
 
+h3 > a > span { font-family: back-icon; }
+
 #loginform > input:nth-of-type(1) { font-family: email-icon; }
 #loginform > input:nth-of-type(2) { font-family: password-icon; }
 #signupform > input:nth-of-type(1) { font-family: email-icon; }
@@ -75,13 +74,27 @@ input:hover { background-color: darkgrey; }
   padding: .75em;
 }
 
-form > div:nth-of-type(1) { background-color: #ca7f28; }
-form > div:nth-of-type(3) { background-color: #dbbc4a; }
+#loginform > div:nth-of-type(1) { background-color: #ca7f28; }
+#loginform > div:nth-of-type(3) { background-color: #dbbc4a; }
 
 .facebook > a > span { font-family: fb-icon; }
 .facebook { background-color: #4a8ddb; }
 
+#signupform > div {
+  border: 2px outset darkgrey;
+  width: 40%;
+  border-radius: 8px;
+  padding: .75em;
+}
 
+#btn-signup {
+  font-family: 'Lato', sans-serif;
+  font-size: 1em;
+  width: 47%;
+  padding: .75em;
+  border-radius: 8px;
+  background-color: #dbbc4a;
+}
 
 a {
   text-decoration: none;
