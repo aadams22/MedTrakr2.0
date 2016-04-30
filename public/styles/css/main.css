@@ -58,13 +58,14 @@ li:hover { color: darkgrey; }
 #signupbox { text-align: center; }
 #loginbox { text-align: center; }
 
-.login-container {
+.login-container, #encouragement-container {
   height: 40%; width: 400px;
   margin: 0 auto;
   border: 1px solid darkgrey;
   background: lightgrey;
   opacity: .6;
 }
+
 
 #loginform > * { margin: 1em auto; }
 #signupform > * { margin: 1em auto; }
@@ -121,11 +122,22 @@ input:hover { background-color: darkgrey; }
   background-color: #dbbc4a;
 }
 
+
+#encouragement-container {
+  text-align: center;
+  height: 400px;
+}
+
+#encouragement-container > * { margin-top: 15%; }
+#encouragement-container > h2 { font-size: 2.5em; }
+#encouragement-container > h3 { font-size: 1.5em; }
+
 a {
   text-decoration: none;
   color: black;
 }
 /*=========================================================================*/
+
 
 #current-container {
   /*border: 1px solid red;*/
