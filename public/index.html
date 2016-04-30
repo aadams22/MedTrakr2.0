@@ -5,17 +5,15 @@
     <title>MedTrakr2.0</title>
     <link href='https://fonts.googleapis.com/css?family=Lato:100italic,300' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="./styles/css/main.css" media="screen" title="no title" charset="utf-8">
-
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.js"></script>
-    <!-- <script src="./controllers/authController.js"></script> -->
     <script src="./controllers/mainController.js"></script>
   </head>
-  <body ng-controller="MainController as mainCtrl">
+  <body>
     <header ng-include src="'./partials/header.html' "></header>
     <div class="container">
         <ng-view></ng-view>
     </div>
-    <section ng-include src="'./partials/current-container.html' "></section>
+    <section ng-controller="CurrentMedController as crtMedCtrl" id="current-container" ng-include src="'./partials/current-container.html' "></section>
   </body>
 </html>

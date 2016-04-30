@@ -105,3 +105,8 @@ app.controller('AuthController', ['$scope', '$http', '$location', function($scop
     };
 
 }]);
+
+
+app.controller('CurrentMedController', ['$scope', function($scope){
+
+}]);

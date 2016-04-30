@@ -23,23 +23,20 @@
 body {
   margin: 0;
   padding: 0;
-
   font-family: 'Lato', sans-serif;
   font-weight: 300;
-
 }
 
 header { width: 100%; }
 
 header > h1 {
   font-size: 1.25em;
-  padding: 0 .5em;
+  padding-left: .5em;
   display: inline-block;
 }
 
 header > ul {
   display: inline-block;
-  margin-left: 57%;
 }
 
 header > ul > li {
@@ -48,9 +45,11 @@ header > ul > li {
 }
 header > ul > li:nth-child(2) { border-left: 1px solid black; }
 li:hover { color: darkgrey; }
+
 /*=========================================================================*/
 
 .container {
+  margin: 0;
   background-image: url('https://www.lifedatacorp.com/wp-content/uploads/2015/06/Road-Running.jpg');
   background-size: cover;
   background-repeat: no-repeat;
@@ -127,3 +126,37 @@ a {
   color: black;
 }
 /*=========================================================================*/
+
+#current-container {
+  /*border: 1px solid red;*/
+  margin: 0;
+  height: 400px;
+  background-color: #1579AB;
+}
+
+#current-container > * { margin: 0; padding: 0; }
+
+#current-container > h2 {
+  text-align: center;
+  background-color: darkgrey;
+  opacity: .9;
+  padding: .5em;
+}
+
+#current-container > div {
+  border: 1px solid silver;
+  opacity: .7;
+  background: lightgrey;
+}
+
+table {
+	border-collapse: collapse;
+	padding: 1em;
+  width: 400px;
+  /*text-align: center;*/
+}
+
+td, th { padding: .5em; }
+
+tr:nth-child(even) { background: darkgrey;}
+td:hover { opacity: .9; }
