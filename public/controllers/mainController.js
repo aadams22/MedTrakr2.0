@@ -107,7 +107,8 @@ app.controller('AuthController', ['$scope', '$http', '$location', function($scop
 }]);
 
 
-app.controller('CurrentMedController', ['$scope', function($scope){
+app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http){
+
 
       // Chart.js Data
       $scope.data = [
@@ -115,19 +116,19 @@ app.controller('CurrentMedController', ['$scope', function($scope){
           value: 300,
           color:'#F7464A',
           highlight: '#FF5A5E',
-          label: 'Red'
+          label: 'Medication'
         },
         {
           value: 50,
           color: '#46BFBD',
           highlight: '#5AD3D1',
-          label: 'Green'
+          label: 'Frequency'
         },
         {
           value: 100,
           color: '#FDB45C',
           highlight: '#FFC870',
-          label: 'Yellow'
+          label: 'Till Empty'
         }
       ];
 

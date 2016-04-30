@@ -37,6 +37,7 @@ header > h1 {
 
 header > ul {
   display: inline-block;
+  float: right;
 }
 
 header > ul > li {
@@ -140,13 +141,11 @@ a {
 
 
 #current-container {
-  /*border: 1px solid red;*/
-  margin: 0;
-  height: 400px;
+  /*border: 1px solid green;*/
   background-color: #1579AB;
 }
 
-#current-container > * { margin: 0; padding: 0; }
+#current-container > * { margin: 0 auto; padding: 0; }
 
 #current-container > h2 {
   text-align: center;
@@ -156,19 +155,47 @@ a {
 }
 
 #current-container > div {
-  border: 1px solid silver;
+  border: 1px solid darkgrey;
   opacity: .7;
   background: lightgrey;
 }
 
+#current-meds {
+  border: 1px solid red;
+}
+
 table {
+  border: 1px solid red;
 	border-collapse: collapse;
 	padding: 1em;
   width: 400px;
-  /*text-align: center;*/
 }
 
 td, th { padding: .5em; }
 
 tr:nth-child(even) { background: darkgrey;}
 td:hover { opacity: .9; }
+
+td > div {
+  border: 1px outset darkgrey;
+  border-radius: 10px;
+  padding-bottom: 31px;
+  width: 58px;
+}
+
+.not-taken { background-color: #FF8D08; }
+.taken { background-color: #37AAB8; }
+
+#current-meds-chart {
+  width: 400px;
+}
+
+#current-meds-chart > * {
+  padding-top: 15%;
+}
+/*=========================================================================*/
+@media screen and (min-width: 480px) {
+    #current-container > div {
+      display: inline-block;
+    }
+}

@@ -2,12 +2,19 @@
 
 <div id="current-meds">
   <table>
-    <th>Name</th>
     <tr>
       <td>Vicodin</td>
+      <td>Take Daily</td>
+      <td><div ng-class="taken"></div></td>
+    </tr>
+    <tr>
+      <td>Blackberries</td>
+      <td>Take hourly</td>
+      <td><div ng-class="not-taken"></div></td>
     </tr>
   </table>
 </div>
 
 <div id="current-meds-chart">
-    <canvas tc-chartjs-doughnut chart-options="options" chart-data="data" auto-legend></canvas></div>
+    <canvas tc-chartjs-doughnut chart-options="options" chart-data="data" auto-legend></canvas>
+</div>
