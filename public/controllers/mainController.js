@@ -108,7 +108,9 @@ app.controller('AuthController', ['$scope', '$http', '$location', function($scop
 
 
 app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http){
-
+  this.takenMed = function() {
+    console.log('med is clicked');
+  }
 
       // Chart.js Data
       $scope.data = [

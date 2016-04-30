@@ -20,7 +20,8 @@ var userSchema = new Schema({
   providerData: {
                  accessToken:  { type: String },
                  refreshToken: { type: String }
-                 }
+                },
+  meds: []
 });
 
 

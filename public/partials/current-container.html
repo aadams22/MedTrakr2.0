@@ -1,20 +1,21 @@
 <h2>Current Medications</h2>
+<div class="current-wrapper">
+  <div id="current-meds">
+    <table>
+      <tr>
+        <td>Vicodin</td>
+        <td>Take Daily</td>
+        <td><div class="taken" ng-click="takenMed($index)">&#xE801</div></td>
+      </tr>
+      <tr>
+        <td>Blackberries</td>
+        <td>Take hourly</td>
+        <td><div class="not-taken">&#xE801</div></td>
+      </tr>
+    </table>
+  </div>
 
-<div id="current-meds">
-  <table>
-    <tr>
-      <td>Vicodin</td>
-      <td>Take Daily</td>
-      <td><div ng-class="taken"></div></td>
-    </tr>
-    <tr>
-      <td>Blackberries</td>
-      <td>Take hourly</td>
-      <td><div ng-class="not-taken"></div></td>
-    </tr>
-  </table>
-</div>
-
-<div id="current-meds-chart">
-    <canvas tc-chartjs-doughnut chart-options="options" chart-data="data" auto-legend></canvas>
+  <div id="current-meds-chart">
+      <canvas tc-chartjs-doughnut chart-options="options" chart-data="data" auto-legend></canvas>
+  </div>
 </div>

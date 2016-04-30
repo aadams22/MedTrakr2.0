@@ -7,6 +7,11 @@
   src: url('../fonts/entypo/userE803.ttf');
 }
 @font-face {
+  font-family: checkmark-icon;
+  src: url('../fonts/entypo/checkmark.ttf');
+}
+
+@font-face {
   font-family: email-icon;
   src: url('../fonts/font-awesome/email.ttf');
 }
@@ -154,18 +159,19 @@ a {
   padding: .5em;
 }
 
-#current-container > div {
-  border: 1px solid darkgrey;
+.current-wrapper {
+  /*border: 1px solid red;*/
   opacity: .7;
   background: lightgrey;
 }
 
 #current-meds {
-  border: 1px solid red;
+  /*border: 1px solid red;*/
+  height: auto;
 }
 
 table {
-  border: 1px solid red;
+  /*border: 1px solid red;*/
 	border-collapse: collapse;
 	padding: 1em;
   width: 400px;
@@ -179,23 +185,34 @@ td:hover { opacity: .9; }
 td > div {
   border: 1px outset darkgrey;
   border-radius: 10px;
-  padding-bottom: 31px;
-  width: 58px;
+  padding-left: 36px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  font-family: checkmark-icon;
 }
 
 .not-taken { background-color: #FF8D08; }
-.taken { background-color: #37AAB8; }
+.taken { background-color: grey}
+
+
 
 #current-meds-chart {
+  border: 1px solid darkgrey;
   width: 400px;
 }
 
-#current-meds-chart > * {
-  padding-top: 15%;
-}
+#current-meds-chart > * { padding-top: 15%; }
 /*=========================================================================*/
 @media screen and (min-width: 480px) {
-    #current-container > div {
+    .current-wrapper > div {
       display: inline-block;
+    }
+    #current-meds {
+      height: 472px;
+      margin-left: 10%;
+    }
+    #current-meds-chart {
+      float: right;
+      margin-right: 10%;
     }
 }
