@@ -24,8 +24,8 @@ var userSchema = new Schema({
   meds: [{
           name: { type: String },
           frequency: {
-                      quantityFrequency: { type: Number }, 
-                      timeFrequency: { type: Number }
+                      quantityFrequency: { type: Number },
+                      timeFrequency: { type: String }
                      },
           directions: { type: String },
           quantity: { type: Number },

@@ -38,23 +38,26 @@ module.exports = function(app, passport, mongoose) {
 
   app.post('/createMed', function(req,res) {
     console.log('1. req.body: ', req.body);
-    console.log('2. create med accessed ', req.user);
-    var newMed = {
-                  name:       req.body.name,
-                  frequency: {
-                              quantityFrequency: req.body.frequency.quantityFrequency,
-                              timeFrequency: req.body.frequency.timeFrequency
+    console.log('2. create med accessed ', req.user._id);
+    var med = {
+                  'name':       req.body.name,
+                  'frequency': {
+                              'quantityFrequency': parseInt(req.body.frequency.quantityFrequency),
+                              'timeFrequency': req.body.frequency.timeFrequency
                               },
-                  directions: req.body.directions,
-                  quantity:   req.body.quantity,
-                  refills:    req.body.refills,
-                  pharmacy:   req.body.pharmacy,
-                  contact:    req.body.contact
+                  'directions': req.body.directions,
+                  'quantity':   parseInt(req.body.quantity),
+                  'refills':    parseInt(req.body.refills),
+                  'pharmacy':   req.body.pharmacy,
+                  'contact':    parseInt(req.body.contact)
                 }
-    console.log('3. newMed: ', newMed)
-    User.findByIdAndUpdate(req.user._id, { $push: {meds: newMed} }, {safe: true, upsert: true}, function(err, data){
-      console.log('4.. found data: ', data);
-
+    console.log('3. med: ', med)
+    User.findByIdAndUpdate(
+          req.user._id,
+          { $push: { 'meds': med} },
+          { safe: true, upsert: true, new: true },
+          function(err, data){
+          console.log('4.. found data: ', data);
 
       if( err )console.log(err);
     });
