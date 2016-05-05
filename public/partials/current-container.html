@@ -1,4 +1,32 @@
 <h2>Current Medications</h2>
+
+<div id="new-med-form" ng-show="one">
+  <h3>Add a New Medication</h3>
+  <form class="" name="form" action="index.html">
+    <input type="text" ng-model="user.meds.name" name="name" placeholder="Medication"><br/>
+    <select name="quantityFrequency" ng-model="user.meds.frequency.quantityFrequency">
+       <option value="1">1</option>
+       <option value="2">2</option>
+       <option value="3">3</option>
+       <option value="4">4</option>
+       <option value="5">5</option>
+    </select>
+    <select name="timeFrequency" ng-model="user.meds.frequency.timeFrequency">
+       <option value="daily">daily</option>
+       <option value="daily2">twice daily</option>
+       <option value="daily3">three times daily</option>
+       <option value="daily4">four times daily</option>
+       <option value="everyOther">every other day</option>
+    </select><br/>
+     <input type="text" ng-model="user.meds.directions" name="directions" placeholder="Directions"><br/>
+    <input type="text" ng-model="user.meds.quantity" name="quantity" placeholder="Quantity"><br/>
+    <input type="text" ng-model="user.meds.refills" name="refills" placeholder="Refills"><br/>
+    <input type="text" ng-model="user.meds.pharmacy" name="pharmacy" placeholder="Pharmacy"><br/>
+    <input type="text" ng-model="user.meds.contact" name="contact" placeholder="Pharmacy Phone Number"><br/>
+    <input type="button" ng-click="addMed(user)" value="Save">
+  </form>
+</div>
+
 <div class="current-wrapper">
   <div id="current-meds">
     <table>
@@ -13,37 +41,11 @@
         <td><div class="not-taken">&#xE801</div></td>
       </tr>
     </table>
-    <div class="button" ng-click="showOne()">&#xE801</div>
-  </div>
+  <div class="button" ng-click="showOne()">&#xE801</div>
+</div>
 
   <div id="current-meds-chart">
       <canvas tc-chartjs-doughnut chart-options="options" chart-data="data" auto-legend></canvas>
   </div>
 
-  <div id="new-med-form" ng-show="one">
-    <h3>Add a New Medication</h3>
-    <form class="" name="form" action="index.html">
-      <input type="text" ng-model="user.meds.name" name="name" placeholder="Medication"><br/>
-      <select name="quantityFrequency" ng-model="user.meds.frequency.quantityFrequency">
-         <option value="1">1</option>
-         <option value="2">2</option>
-         <option value="3">3</option>
-         <option value="4">4</option>
-         <option value="5">5</option>
-      </select>
-      <select name="timeFrequency" ng-model="user.meds.frequency.timeFrequency">
-         <option value="daily">daily</option>
-         <option value="daily2">twice daily</option>
-         <option value="daily3">three times daily</option>
-         <option value="daily4">four times daily</option>
-         <option value="everyOther">every other day</option>
-      </select><br/>
-       <input type="text" ng-model="user.meds.directions" name="directions" placeholder="Directions"><br/>
-      <input type="text" ng-model="user.meds.quantity" name="quantity" placeholder="Quantity"><br/>
-      <input type="text" ng-model="user.meds.refills" name="refills" placeholder="Refills"><br/>
-      <input type="text" ng-model="user.meds.pharmacy" name="pharmacy" placeholder="Pharmacy"><br/>
-      <input type="text" ng-model="user.meds.contact" name="contact" placeholder="Pharmacy Phone Number"><br/>
-      <input type="button" ng-click="addMed(user)" value="Save">
-    </form>
-  </div>
 </div>

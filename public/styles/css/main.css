@@ -79,8 +79,9 @@ li:hover { color: darkgrey; }
 
 #loginform > * { margin: 1em auto; }
 #signupform > * { margin: 1em auto; }
+#new-med-form > form > * { margin: 1em auto; }
 
-#loginform > input, #signupform > input {
+#loginform > input, #signupform > input, #new-med-form > form > input {
   font-size: 12px;
   padding: 1em;
   height: 30%; width: 60%;
@@ -219,9 +220,18 @@ td > div {
 #current-meds-chart > * { padding-top: 15%; }
 
 
-#new-med-form { border: 1px solid green; }
+#new-med-form {
+  text-align: center;
+  height: 100%; width: 100%;
+  position: absolute;
+  z-index: 5;
+  background-color: lightgrey;
+  opacity: .9;
+}
+#new-med-form > form > input:last-child {
+  background-color: #4a8ddb;
+}
 
-.disabled { display: none; }
 
 /*=========================================================================*/
 @media screen and (min-width: 480px) {

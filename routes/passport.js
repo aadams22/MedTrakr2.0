@@ -51,15 +51,12 @@ module.exports = function(app, passport, mongoose) {
                   'pharmacy':   req.body.pharmacy,
                   'contact':    parseInt(req.body.contact)
                 }
-    console.log('3. med: ', med)
     User.findByIdAndUpdate(
           req.user._id,
           { $push: { 'meds': med} },
           { safe: true, upsert: true, new: true },
           function(err, data){
-          console.log('4.. found data: ', data);
-
-      if( err )console.log(err);
+          if( err ) console.log(err);
     });
   });
 
