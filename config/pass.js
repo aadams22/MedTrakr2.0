@@ -4,7 +4,12 @@ module.exports = function(app, passport, mongoose) {
   var FacebookStrategy = require('passport-facebook').Strategy;
   var User             = require('../models/user.js');
 
-  //initializing passport and passport session
+  app.use(require('body-parser').urlencoded({ extended: true }));
+  app.use(require('express-session')({
+    secret: 'dearly beloved we are bathered here today to get through this thing called life',
+    resave: true,
+    saveUninitialized: true
+  }));
   app.use(passport.initialize());
   app.use(passport.session());
 
@@ -16,7 +21,7 @@ module.exports = function(app, passport, mongoose) {
    enableProof: true
   },
   function(accessToken, refreshToken, profile, done){
-    
+
      process.nextTick(function() {
          //find user by facebook id, setting to string for unifomrity with the ObjectId of those not logging in with facebook
          User.findOne({ '_id' : String(profile.id) }, function(err, user) {

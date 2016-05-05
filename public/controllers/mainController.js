@@ -29,8 +29,10 @@ app.config(['$routeProvider',
 
 app.controller('AuthController', ['$scope', '$http', '$location', function($scope,$http,$location) {
 
-    $scope.user  = { email:'', password:'' };
+    $scope.user  = { email:'', password:'', firstName:'' };
     $scope.alert = '';
+    $scope.logoutbutton = false;
+
 
     var validation = {
         isEmailAddress:function(str) {
@@ -64,10 +66,12 @@ app.controller('AuthController', ['$scope', '$http', '$location', function($scop
     }
 
     //LOGIN REQUEST
+
     $scope.login = function(user){
         $http.post('/login', user).
             success(function(data) {
                 $scope.loggeduser = data;
+                $scope.logoutbutton = true;
                 $location.path('/user');
             }).
             error(function() {
@@ -97,11 +101,18 @@ app.controller('AuthController', ['$scope', '$http', '$location', function($scop
         $http.get('/logout')
             .success(function() {
                 $scope.loggeduser = {};
+                $scope.logout
                 $location.path('/signin');
             })
             .error(function() {
                 $scope.alert = 'Logout failed'
             });
+    };
+
+    $scope.showLogout = function() {
+      console.log('1. show logout', $scope.logoutbutton);
+      $scope.logoutbutton = true;
+      console.log('2. show logout', $scope.logoutbutton);
     };
 
 }]);
@@ -177,7 +188,16 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
 
 
       $scope.addMed = function(user) {
-        console.log('new med submited: ', user);
+        console.log('new med submited: ', user.meds);
+        $http.post('/createMed', user.meds).
+            success(function(data) {
+                // $scope.alert = data.alert;
+                console.log('this is success data: ', data);
+             }).
+            error(function(err) {
+                // $scope.alert = 'Registration failed'
+                console.log(err);
+            });
       }
 
 }]);

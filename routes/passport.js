@@ -27,18 +27,37 @@ module.exports = function(app, passport, mongoose) {
       res.redirect('/#/user');
   });
 
-  //JSON
-  app.get('/json', function(req, res){
-    User.findById(user.id, function(err, data){
-      res.send(data);
-    });
-  });
+
 
   //LOGOUT
   app.get('/logout', function(req, res) {
       console.log("--is logged out--");
       req.logout();
       res.redirect('/');
+  });
+
+  app.post('/createMed', function(req,res) {
+    console.log('1. req.body: ', req.body);
+    console.log('2. create med accessed ', req.user);
+    var newMed = {
+                  name:       req.body.name,
+                  frequency: {
+                              quantityFrequency: req.body.frequency.quantityFrequency,
+                              timeFrequency: req.body.frequency.timeFrequency
+                              },
+                  directions: req.body.directions,
+                  quantity:   req.body.quantity,
+                  refills:    req.body.refills,
+                  pharmacy:   req.body.pharmacy,
+                  contact:    req.body.contact
+                }
+    console.log('3. newMed: ', newMed)
+    User.findByIdAndUpdate(req.user._id, { $push: {meds: newMed} }, {safe: true, upsert: true}, function(err, data){
+      console.log('4.. found data: ', data);
+
+
+      if( err )console.log(err);
+    });
   });
 
 
@@ -59,7 +78,12 @@ module.exports = function(app, passport, mongoose) {
      });
   });
 
-
+  //JSON
+  app.get('/json', function(req, res){
+    User.findById(req.user.id, function(err, data){
+      res.send(data);
+    });
+  });
 
 
 } //<--module exports
