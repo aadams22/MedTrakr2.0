@@ -184,7 +184,7 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
       $scope.showOne = function () {
         $scope.one = true;
         console.log('div is selected: ', $scope.one);
-      }
+      };
 
 
       $scope.addMed = function(user) {
@@ -198,6 +198,11 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
                 // $scope.alert = 'Registration failed'
                 console.log(err);
             });
-      }
+      };
+
+      $scope.close = function() {
+        console.log('close accessed');
+        $scope.one = false;
+      };
 
 }]);

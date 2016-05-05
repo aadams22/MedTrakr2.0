@@ -27,6 +27,10 @@
   font-family: plus-icon;
   src: url('../fonts/typicons/plus.ttf');
 }
+@font-face {
+  font-family: close-icon;
+  src: url('../fonts/entypo/close.ttf');
+}
 
 /*=========================================================================*/
 body {
@@ -203,14 +207,30 @@ td > div {
 .taken { background-color: grey}
 
 .button {
-  margin-top: 2%;
-  font-family: plus-icon;
   text-align: center;
-  background-color: #4a8ddb;
-  border: 1px solid black;
   border-radius: 25px;
   opacity: .6;
 }
+
+.add {
+  border: 1px solid black;
+  margin-top: 2%;
+  font-family: plus-icon;
+  background-color: #4a8ddb;
+}
+
+.close {
+    margin-top: -7%;
+    margin-right: 1%;
+    padding: 0;
+    border-radius: 25px;
+    width: 30px;
+    font-family: close-icon;
+    font-size: 30px;
+    float: right;
+}
+
+.button:hover { opacity: .5;}
 
 #current-meds-chart {
   border: 1px solid darkgrey;
@@ -228,9 +248,10 @@ td > div {
   background-color: lightgrey;
   opacity: .9;
 }
-#new-med-form > form > input:last-child {
-  background-color: #4a8ddb;
-}
+
+#new-med-form > form > input:last-child { background-color: #4a8ddb; }
+#new-med-form > form > input:last-child:hover { opacity: .5; }
+
 
 
 /*=========================================================================*/
