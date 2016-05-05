@@ -108,7 +108,7 @@ app.controller('AuthController', ['$scope', '$http', '$location', function($scop
 
 
 app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http){
-  this.takenMed = function() {
+  $scope.takenMed = function($ind) {
     console.log('med is clicked');
   }
 
@@ -168,5 +168,16 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
         legendTemplate : '<ul class="tc-chart-js-legend"><% for (var i=0; i<segments.length; i++){%><li><span style="background-color:<%=segments[i].fillColor%>"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
 
       };
+
+      $scope.one = false;
+      $scope.showOne = function () {
+        $scope.one = true;
+        console.log('div is selected: ', $scope.one);
+      }
+
+
+      $scope.addMed = function(user) {
+        console.log('new med submited: ', user);
+      }
 
 }]);

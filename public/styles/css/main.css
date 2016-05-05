@@ -23,6 +23,10 @@
   font-family: back-icon;
   src: url('../fonts/mfg-labs/backarrow.ttf');
 }
+@font-face {
+  font-family: plus-icon;
+  src: url('../fonts/typicons/plus.ttf');
+}
 
 /*=========================================================================*/
 body {
@@ -147,7 +151,8 @@ a {
 
 #current-container {
   /*border: 1px solid green;*/
-  background-color: #1579AB;
+  /*background-color: #1579AB;*/
+  background-color: white;
 }
 
 #current-container > * { margin: 0 auto; padding: 0; }
@@ -161,8 +166,8 @@ a {
 
 .current-wrapper {
   /*border: 1px solid red;*/
-  opacity: .7;
-  background: lightgrey;
+  /*opacity: .7;*/
+  /*background: lightgrey;*/
 }
 
 #current-meds {
@@ -177,9 +182,11 @@ table {
   width: 400px;
 }
 
-td, th { padding: .5em; }
+td, th, .button { padding: .5em; }
 
-tr:nth-child(even) { background: darkgrey;}
+
+tr { border-bottom: 1px solid black; }
+tr:hover { background-color: lightgrey; }
 td:hover { opacity: .9; }
 
 td > div {
@@ -194,7 +201,15 @@ td > div {
 .not-taken { background-color: #FF8D08; }
 .taken { background-color: grey}
 
-
+.button {
+  margin-top: 2%;
+  font-family: plus-icon;
+  text-align: center;
+  background-color: #4a8ddb;
+  border: 1px solid black;
+  border-radius: 25px;
+  opacity: .6;
+}
 
 #current-meds-chart {
   border: 1px solid darkgrey;
@@ -202,6 +217,12 @@ td > div {
 }
 
 #current-meds-chart > * { padding-top: 15%; }
+
+
+#new-med-form { border: 1px solid green; }
+
+.disabled { display: none; }
+
 /*=========================================================================*/
 @media screen and (min-width: 480px) {
     .current-wrapper > div {

@@ -21,7 +21,18 @@ var userSchema = new Schema({
                  accessToken:  { type: String },
                  refreshToken: { type: String }
                 },
-  meds: []
+  meds: [{
+          name: { type: String },
+          frequency: {
+                      quantityFrequency: { type: Number }, 
+                      timeFrequency: { type: Number }
+                     },
+          directions: { type: String },
+          quantity: { type: Number },
+          refills: { type: Number },
+          pharmacy: { type: String },
+          contact: { type: Number }
+        }]
 });
 
 
