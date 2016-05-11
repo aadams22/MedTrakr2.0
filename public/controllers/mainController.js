@@ -123,6 +123,7 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
     console.log('med is clicked');
   }
 
+
       // Chart.js Data
       $scope.data = [
         {
@@ -191,11 +192,12 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
         console.log('new med submited: ', user.meds);
         $http.post('/createMed', user.meds).
             success(function(data) {
-                // $scope.alert = data.alert;
+                // $scope.formAlert = data.formAlert;
                 console.log('this is success data: ', data);
+                $scope.one = false;
              }).
             error(function(err) {
-                // $scope.alert = 'Registration failed'
+                $scope.formAlert = 'Oops! Something went wrong! Refresh and try again.'
                 console.log(err);
             });
       };
@@ -204,5 +206,15 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
         console.log('close accessed');
         $scope.one = false;
       };
+
+      $http.get('/json').
+          success(function(data){
+            $scope.meds = data.meds;
+            console.log(data);
+            console.log(meds[0]);
+          }).
+          error(function(err){
+            console.log(err);
+          });
 
 }]);

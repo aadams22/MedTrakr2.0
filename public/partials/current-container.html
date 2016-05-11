@@ -3,6 +3,7 @@
 <div id="new-med-form" ng-show="one">
   <h3>Add a New Medication</h3>
   <div class="close button" ng-click="close()">&#xE801</div>
+  <div ng-show="formAlert" id="login-alert" class="alert alert-danger">{{formAlert}}</div>
   <form class="" name="form" action="index.html">
     <input type="text" ng-model="user.meds.name" name="name" placeholder="Medication"><br/>
     <select name="quantityFrequency" ng-model="user.meds.frequency.quantityFrequency">
@@ -31,9 +32,9 @@
 <div class="current-wrapper">
   <div id="current-meds">
     <table>
-      <tr>
-        <td>Vicodin</td>
-        <td>Take Daily</td>
+      <tr ng-repeat="med in meds">
+        <td>{{ med.name }}</td>
+        <td>Take {{ med.frequency.quantityFrequency }} {{ med.frequency.timeFrequency }}</td>
         <td><div class="taken" ng-click="takenMed($index)">&#xE801</div></td>
       </tr>
       <tr>
