@@ -14,6 +14,10 @@ module.exports = function(app, passport, mongoose) {
   app.use(passport.session());
 
 
+  function capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
 
   //FACEBOOK OAUTH
   app.get('/login/facebook',
@@ -40,15 +44,15 @@ module.exports = function(app, passport, mongoose) {
     console.log('1. req.body: ', req.body);
     console.log('2. create med accessed ', req.user._id);
     var med = {
-                  'name':       req.body.name,
+                  'name':       capitalizeFirstLetter(req.body.name),
                   'frequency': {
                               'quantityFrequency': parseInt(req.body.frequency.quantityFrequency),
                               'timeFrequency': req.body.frequency.timeFrequency
                               },
-                  'directions': req.body.directions,
+                  'directions': capitalizeFirstLetter(req.body.directions),
                   'quantity':   parseInt(req.body.quantity),
                   'refills':    parseInt(req.body.refills),
-                  'pharmacy':   req.body.pharmacy,
+                  'pharmacy':   capitalizeFirstLetter(req.body.pharmacy),
                   'contact':    parseInt(req.body.contact)
                 }
     User.findByIdAndUpdate(
