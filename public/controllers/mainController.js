@@ -119,9 +119,15 @@ app.controller('AuthController', ['$scope', '$http', '$location', function($scop
 
 
 app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http){
-  $scope.takenMed = function($ind) {
-    console.log('med is clicked');
-  }
+
+    $http.get('/json').
+        success(function(data){
+          $scope.meds = data.meds;
+          console.log('original array: ', $scope.meds);
+        }).
+        error(function(err){
+          console.log(err);
+        });
 
 
       // Chart.js Data
@@ -181,6 +187,10 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
 
       };
 
+      $scope.takenMed = function($ind) {
+        console.log('med is clicked');
+      }
+
       $scope.one = false;
       $scope.showOne = function() {
         $scope.one = true;
@@ -192,36 +202,35 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
       };
 
       $scope.close = function() {
-        console.log('close accessed');
         $scope.one = false;
       };
 
       $scope.addMed = function(user) {
-        console.log('new med submited: ', user.meds);
+        $scope.meds.push(user.meds);
+        $scope.one = false;
         $http.post('/createMed', user.meds).
             success(function(data) {
                 // $scope.formAlert = data.formAlert;
                 console.log('this is success data: ', data);
-                $scope.one = false;
              }).
             error(function(err) {
-                $scope.formAlert = 'Oops! Something went wrong! Refresh and try again.'
+                // $scope.formAlert = 'Oops! Something went wrong! Refresh and try again.'
                 console.log(err);
             });
       };
 
       $scope.deleteMed = function($index) {
-        console.log('med to delete ', $index);
-        console.log($scope.meds[$index])
-      };
+        $scope.meds.splice($index);
+        $scope.delete = false;
+        console.log('updated with deleted: ', $scope.meds);
+        $http.post('/createTakenMed', $scope.meds[$index]).
+            success(function(data) {
+              console.log('this is success data: ', data.meds);
+           }).
+           error(function(err) {
+               console.log(err);
+           });
 
-
-      $http.get('/json').
-          success(function(data){
-            $scope.meds = data.meds;
-          }).
-          error(function(err){
-            console.log(err);
-          });
+     };
 
 }]);

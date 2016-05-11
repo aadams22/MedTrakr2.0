@@ -57,13 +57,33 @@ module.exports = function(app, passport, mongoose) {
                 }
     User.findByIdAndUpdate(
           req.user._id,
-          { $push: { 'meds': med} },
+          { $push: { 'meds': med } },
           { safe: true, upsert: true, new: true },
           function(err, data){
           if( err ) console.log(err);
     });
   });
 
+
+  app.post('/createTakenMed', function(req,res){
+    console.log('=======createTakenMed accessed:========', req.body.name);
+    User.findByIdAndUpdate(
+          req.user._id,
+          { $push: { 'takenMeds':  req.body } },
+          { safe: true, upsert: true, new: true },
+          function(err, data){
+          if( err ) console.log(err);
+    });
+
+    User.findByIdAndUpdate(
+          req.user._id,
+          { $unset: { 'meds' : { 'name' : req.body.name } } },
+          function(err, data){
+          console.log('=======saved=======', data);
+          if( err ) console.log(err);
+    });
+
+  });
 
   //=============================================================
   //IS LOGGED IN
