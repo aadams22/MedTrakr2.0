@@ -28,6 +28,10 @@
   src: url('../fonts/typicons/plus.ttf');
 }
 @font-face {
+  font-family: minus-icon;
+  src: url('../fonts/typicons/minus.ttf');
+}
+@font-face {
   font-family: close-icon;
   src: url('../fonts/entypo/close.ttf');
 }
@@ -197,14 +201,12 @@ td:hover { opacity: .9; }
 td > div {
   border: 1px outset darkgrey;
   border-radius: 10px;
-  padding-left: 36px;
-  padding-top: 3px;
-  padding-bottom: 3px;
-  font-family: checkmark-icon;
+  padding: 3px 10px;
+  text-align: center;
 }
 
-.not-taken { background-color: #FF8D08; }
-.taken { background-color: grey}
+.not-taken { background-color: #FF8D08; font-family: checkmark-icon; }
+.taken { background-color: grey; font-family: checkmark-icon; }
 
 .button {
   text-align: center;
@@ -212,11 +214,27 @@ td > div {
   opacity: .6;
 }
 
-.add {
+.delete-med {
+  background-color: red;
+  opacity: .6;
+}
+.delete-med:hover { opacity: .9; }
+
+.add, .delete {
   border: 1px solid black;
   margin-top: 2%;
+  display: inline-block;
+  width: 45%;
+}
+
+.add {
   font-family: plus-icon;
   background-color: #4a8ddb;
+}
+
+.delete, .delete-med {
+  background-color: red;
+  font-family: minus-icon;
 }
 
 .close {

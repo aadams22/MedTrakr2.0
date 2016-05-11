@@ -182,11 +182,19 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
       };
 
       $scope.one = false;
-      $scope.showOne = function () {
+      $scope.showOne = function() {
         $scope.one = true;
-        console.log('div is selected: ', $scope.one);
       };
 
+      $scope.delete = false;
+      $scope.showDelete = function() {
+        $scope.delete = true;
+      };
+
+      $scope.close = function() {
+        console.log('close accessed');
+        $scope.one = false;
+      };
 
       $scope.addMed = function(user) {
         console.log('new med submited: ', user.meds);
@@ -202,16 +210,15 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
             });
       };
 
-      $scope.close = function() {
-        console.log('close accessed');
-        $scope.one = false;
+      $scope.deleteMed = function($index) {
+        console.log('med to delete ', $index);
+        console.log($scope.meds[$index])
       };
+
 
       $http.get('/json').
           success(function(data){
             $scope.meds = data.meds;
-            console.log(data);
-            console.log(meds[0]);
           }).
           error(function(err){
             console.log(err);

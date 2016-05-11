@@ -32,7 +32,20 @@ var userSchema = new Schema({
           refills: { type: Number },
           pharmacy: { type: String },
           contact: { type: Number }
+        }],
+  takenMeds: [{
+          name: { type: String },
+          frequency: {
+                      quantityFrequency: { type: Number },
+                      timeFrequency: { type: String }
+                     },
+          directions: { type: String },
+          quantity: { type: Number },
+          refills: { type: Number },
+          pharmacy: { type: String },
+          contact: { type: Number }
         }]
+
 });
 
 

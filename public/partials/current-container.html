@@ -20,7 +20,7 @@
        <option value="daily4">four times daily</option>
        <option value="everyOther">every other day</option>
     </select><br/>
-     <input type="text" ng-model="user.meds.directions" name="directions" placeholder="Directions"><br/>
+    <input type="text" ng-model="user.meds.directions" name="directions" placeholder="Directions"><br/>
     <input type="text" ng-model="user.meds.quantity" name="quantity" placeholder="Quantity"><br/>
     <input type="text" ng-model="user.meds.refills" name="refills" placeholder="Refills"><br/>
     <input type="text" ng-model="user.meds.pharmacy" name="pharmacy" placeholder="Pharmacy"><br/>
@@ -33,17 +33,14 @@
   <div id="current-meds">
     <table>
       <tr ng-repeat="med in meds">
+        <td ng-show="delete" ng-click="deleteMed($index)"><div class="delete-med">&#xE801</div></td>
         <td>{{ med.name }}</td>
         <td>Take {{ med.frequency.quantityFrequency }} {{ med.frequency.timeFrequency }}</td>
         <td><div class="taken" ng-click="takenMed($index)">&#xE801</div></td>
       </tr>
-      <tr>
-        <td>Blackberries</td>
-        <td>Take hourly</td>
-        <td><div class="not-taken">&#xE801</div></td>
-      </tr>
     </table>
   <div class="add button" ng-click="showOne()">&#xE801</div>
+  <div class="delete button" ng-click="showDelete()">&#xE801</div>
 </div>
 
   <div id="current-meds-chart">
