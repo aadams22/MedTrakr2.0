@@ -40,10 +40,9 @@ module.exports = function(app, passport, mongoose) {
       res.redirect('/');
   });
 
-  app.post('/createMed', function(req,res) {
+  app.put('/createMed', function(req,res) {
     console.log('1. req.body: ', req.body);
     console.log('2. create med accessed ', req.user._id);
-    console.log('3. time frequency', req.body.frequency.timeFrequency);
     var nextTime = 24;
     var h = 3600000;
 
@@ -52,8 +51,8 @@ module.exports = function(app, passport, mongoose) {
     else if (req.body.frequency.timeFrequency == 'three times daily') { nextTime *= (h/3); }
     else if(req.body.frequency.timeFrequency == 'four times daily') { nextTime *= (h/4); }
     else if(req.body.frequency.timeFrequency == 'every other day') { nextTime *= (h * 2); };
-
-    var med = {
+    console.log('3. time frequency', typeof nextTime);
+    var newMed = {
                   'name':       capitalizeFirstLetter(req.body.name),
                   'frequency': {
                               'quantityFrequency': parseInt(req.body.frequency.quantityFrequency),
@@ -70,7 +69,7 @@ module.exports = function(app, passport, mongoose) {
                 }
     User.findByIdAndUpdate(
           req.user._id,
-          { $push: { 'meds': med } },
+          { $push: { 'meds' : newMed } },
           { safe: true, upsert: true, new: true },
           function(err, data){
           if( err ) console.log(err);
@@ -78,7 +77,7 @@ module.exports = function(app, passport, mongoose) {
   });
 
 
-  app.post('/createCompletedMed', function(req,res){
+  app.put('/createCompletedMed', function(req,res){
     console.log('=======createCompletedMed accessed:========', req.body);
     User.findByIdAndUpdate(
           req.user._id,
@@ -88,26 +87,37 @@ module.exports = function(app, passport, mongoose) {
           if( err ) console.log(err);
     });
 
+    User.findByIdAndUpdate(
+          req.user._id,
+          { $unset: { 'meds' : { 'name' : req.body.name } } },
+          function(err, data){
+          console.log('=======saved=======', data);
+          if( err ) console.log(err);
+    });
+
+  });
+
+
+  app.put('/takenMed', function(req,res){
+    console.log('=====++++takenMed++++=====', req.body);
+    console.log('=====++++lastTimeTake: ', req.body.lastTimeTaken);
     // User.findByIdAndUpdate(
     //       req.user._id,
-    //       { $unset: { 'meds' : { 'name' : req.body.name } } },
+    //       { $set: { 'meds' : { 'taken' : req.body.taken, 'lastTimeTaken' : req.body.lastTimeTaken } } },
     //       function(err, data){
     //       console.log('=======saved=======', data);
     //       if( err ) console.log(err);
     // });
 
-  });
+    User.findOne({ _id : req.user._id, "meds._id" : req.body._id }, function(err,data) {
+      console.log(data);
+      if( err ) console.log(err);
 
-
-  app.post('/takenMed', function(req,res){
-    console.log('=====++++takenMed++++=====', req.body);
-    User.findByIdAndUpdate(
-          req.user._id,
-          { $set: { 'meds' : { 'taken' : req.body.taken, 'lastTimeTaken' : req.body.lastTimeTaken } } },
-          function(err, data){
-          console.log('=======saved=======', data);
-          if( err ) console.log(err);
     });
+
+
+
+
   });
 
 

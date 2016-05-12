@@ -209,8 +209,8 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
         $scope.meds[$index].taken = $scope.meds[$index].taken = true;
         //sets the last time taken to the current time and date
         $scope.meds[$index].lastTimeTaken = d;
-
-        $http.post('/takenMed', $scope.meds[$index]).
+        //sends taken med to back end
+        $http.put('/takenMed', $scope.meds[$index]).
             success(function(data) {
               console.log('this is success data: ', data.meds);
            }).
@@ -220,53 +220,56 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
 
       };
 
-      $scope.one = false;
-      $scope.showOne = function() {
-        $scope.one = true;
-      };
 
+      //sets the individual delete buttons ng-show to false
       $scope.delete = false;
+      //shows or hides individual delete boxes for each med when big delete button is clicked
       $scope.showDelete = function() {
         ($scope.delete) ? $scope.delete = false : $scope.delete = true;
       };
 
+      //sets the popup form ng-show to false
+      $scope.one = false;
+      //shows the popup form on add button click
+      $scope.showOne = function() {
+        $scope.one = true;
+      };
+
+      //closes form popup on click
       $scope.close = function() {
         $scope.one = false;
       };
 
       //ADDS NEW MED
       $scope.addMed = function(user) {
+        console.log('1. this is user.meds ', user.meds);
+        console.log('2. this is $scope.meds ', $scope.meds);
         //adds new med to front end med array
         $scope.meds.push(user.meds);
-        console.log($scope.meds);
+        console.log('3. this is $scope.meds after push', $scope.meds);
         //hides add med form after submition
         $scope.one = false;
-        console.log(user.meds.frequency.timeFrequency);
         //sends newly created med to server to save in database
-        $http.post('/createMed', user.meds).
+        $http.put('/createMed', user.meds).
             success(function(data) {
-                // $scope.formAlert = data.formAlert;
                 console.log('this is success data: ', data);
              }).
             error(function(err) {
                 // $scope.formAlert = 'Oops! Something went wrong! Refresh and try again.'
-                console.log(err);
+                console.log('!!this is addMed error: ', err);
             });
       };
 
       //DELETES MED
       $scope.deleteMed = function($index) {
+        //sets clicked med to a value to be sent to the server after splice
         var toBeDeleted = $scope.meds[$index];
         //removes deleted med from front end array
-        console.log('element index ', $index);
-        console.log('before', $scope.meds.length);
         $scope.meds.splice($index, 1);
-        console.log('after', $scope.meds.length);
         //hides the individual delete buttons
         $scope.delete = false;
-        console.log('post', toBeDeleted);
         //sends post request to remove delete med from current meds and add to past meds list
-        $http.post('/createCompletedMed', toBeDeleted).
+        $http.put('/createCompletedMed', toBeDeleted).
             success(function(data) {
               console.log('this is success data: ', data.meds);
            }).
