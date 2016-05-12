@@ -119,6 +119,7 @@ app.controller('AuthController', ['$scope', '$http', '$location', function($scop
 
 
 app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http){
+    var d = Date.now();
 
     $http.get('/json').
         success(function(data){
@@ -128,6 +129,18 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
         error(function(err){
           console.log(err);
         });
+
+        // compares the last time the med was taken to the next time the med should be taken by adding together
+        // the last time taken and the amount of time between dosages
+        if ($scope.meds != undefined) {
+          for (var i = 0; i < $scope.meds.length; i++) {
+            console.log('running for loop');
+            if ($scope.meds[i].lastTimeTaken >= $scope.meds[i].lastTimeTaken + $scope.meds[i].tillNext) {
+              $scope.meds[i].taken = false;
+              console.log('it works', $scope.meds[i].taken);
+            };
+          };
+        };
 
 
       // Chart.js Data
@@ -188,8 +201,23 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
       };
 
       $scope.takenMed = function($index) {
-        ($scope.meds[$index].taken) ? $scope.meds[$index].taken = false : $scope.meds[$index].taken = true;
-        console.log('med after clicked', $scope.meds[$index].taken);
+        console.log(d);
+        console.log($scope.meds[$index].tillNext);
+        console.log($scope.meds[$index].lastTimeTaken);
+        console.log($scope.meds[$index]);
+        //sets the front end meds array taken value according to click
+        $scope.meds[$index].taken = $scope.meds[$index].taken = true;
+        //sets the last time taken to the current time and date
+        $scope.meds[$index].lastTimeTaken = d;
+
+        $http.post('/takenMed', $scope.meds[$index]).
+            success(function(data) {
+              console.log('this is success data: ', data.meds);
+           }).
+           error(function(err) {
+               console.log(err);
+           });
+
       };
 
       $scope.one = false;
@@ -212,6 +240,7 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
         $scope.meds.push(user.meds);
         //hides add med form after submition
         $scope.one = false;
+        console.log(user.meds.frequency.timeFrequency);
         //sends newly created med to server to save in database
         $http.post('/createMed', user.meds).
             success(function(data) {

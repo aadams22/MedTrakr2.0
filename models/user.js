@@ -32,9 +32,11 @@ var userSchema = new Schema({
           refills: { type: Number },
           pharmacy: { type: String },
           contact: { type: Number },
-          taken: { type: Boolean }
+          taken: { type: Boolean },
+          tillNext: { type: Number },
+          lastTimeTaken: { type: Number }
         }],
-  takenMeds: []
+  completedMeds: []
 
 });
 

@@ -43,18 +43,30 @@ module.exports = function(app, passport, mongoose) {
   app.post('/createMed', function(req,res) {
     console.log('1. req.body: ', req.body);
     console.log('2. create med accessed ', req.user._id);
+    console.log('3. time frequency', req.body.frequency.timeFrequency);
+    var nextTime = 24;
+    var h = 3600000;
+
+    if(req.body.frequency.timeFrequency == 'daily') { nextTime *= h; }
+    else if (req.body.frequency.timeFrequency == 'twice daily') { nextTime *= (h/2); }
+    else if (req.body.frequency.timeFrequency == 'three times daily') { nextTime *= (h/3); }
+    else if(req.body.frequency.timeFrequency == 'four times daily') { nextTime *= (h/4); }
+    else if(req.body.frequency.timeFrequency == 'every other day') { nextTime *= (h * 2); };
+
     var med = {
                   'name':       capitalizeFirstLetter(req.body.name),
                   'frequency': {
                               'quantityFrequency': parseInt(req.body.frequency.quantityFrequency),
-                              'timeFrequency': req.body.frequency.timeFrequency
+                              'timeFrequency': req.body.frequency.timeFrequency.replace(/[0-9]/g, '')
                               },
                   'directions': capitalizeFirstLetter(req.body.directions),
                   'quantity':   parseInt(req.body.quantity),
                   'refills':    parseInt(req.body.refills),
                   'pharmacy':   capitalizeFirstLetter(req.body.pharmacy),
                   'contact':    parseInt(req.body.contact),
-                  'taken':      false
+                  'taken':      false,
+                  'tillNext':   nextTime,
+                  'lastTimeTaken': 0
                 }
     User.findByIdAndUpdate(
           req.user._id,
@@ -70,7 +82,7 @@ module.exports = function(app, passport, mongoose) {
     console.log('=======createTakenMed accessed:========', req.body.name);
     User.findByIdAndUpdate(
           req.user._id,
-          { $push: { 'takenMeds':  req.body } },
+          { $push: { 'completedMeds':  req.body } },
           { safe: true, upsert: true, new: true },
           function(err, data){
           if( err ) console.log(err);
@@ -85,6 +97,20 @@ module.exports = function(app, passport, mongoose) {
     });
 
   });
+
+
+  app.post('/takenMed', function(req,res){
+    console.log('=====++++takenMed++++=====', req.body);
+    User.findByIdAndUpdate(
+          req.user._id,
+          { $set: { 'meds' : { 'taken' : req.body.taken, 'lastTimeTaken' : req.body.lastTimeTaken } } },
+          function(err, data){
+          console.log('=======saved=======', data);
+          if( err ) console.log(err);
+    });
+  });
+
+
 
   //=============================================================
   //IS LOGGED IN
