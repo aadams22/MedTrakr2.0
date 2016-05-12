@@ -198,16 +198,20 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
 
       $scope.delete = false;
       $scope.showDelete = function() {
-        $scope.delete = true;
+        ($scope.delete) ? $scope.delete = false : $scope.delete = true;
       };
 
       $scope.close = function() {
         $scope.one = false;
       };
 
+      //ADDS NEW MED
       $scope.addMed = function(user) {
+        //adds new med to front end med array
         $scope.meds.push(user.meds);
+        //hides add med form after submition
         $scope.one = false;
+        //sends newly created med to server to save in database
         $http.post('/createMed', user.meds).
             success(function(data) {
                 // $scope.formAlert = data.formAlert;
@@ -219,10 +223,13 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
             });
       };
 
+      //DELETES MED
       $scope.deleteMed = function($index) {
+        //removes deleted med from front end array
         $scope.meds.splice($index);
+        //hides the individual delete buttons
         $scope.delete = false;
-        console.log('updated with deleted: ', $scope.meds);
+        //sends post request to remove delete med from current meds and add to past meds list
         $http.post('/createTakenMed', $scope.meds[$index]).
             success(function(data) {
               console.log('this is success data: ', data.meds);
