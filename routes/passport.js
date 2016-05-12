@@ -57,7 +57,7 @@ module.exports = function(app, passport, mongoose) {
                   'name':       capitalizeFirstLetter(req.body.name),
                   'frequency': {
                               'quantityFrequency': parseInt(req.body.frequency.quantityFrequency),
-                              'timeFrequency': req.body.frequency.timeFrequency.replace(/[0-9]/g, '')
+                              'timeFrequency': req.body.frequency.timeFrequency
                               },
                   'directions': capitalizeFirstLetter(req.body.directions),
                   'quantity':   parseInt(req.body.quantity),
@@ -78,8 +78,8 @@ module.exports = function(app, passport, mongoose) {
   });
 
 
-  app.post('/createTakenMed', function(req,res){
-    console.log('=======createTakenMed accessed:========', req.body.name);
+  app.post('/createCompletedMed', function(req,res){
+    console.log('=======createCompletedMed accessed:========', req.body);
     User.findByIdAndUpdate(
           req.user._id,
           { $push: { 'completedMeds':  req.body } },
@@ -88,13 +88,13 @@ module.exports = function(app, passport, mongoose) {
           if( err ) console.log(err);
     });
 
-    User.findByIdAndUpdate(
-          req.user._id,
-          { $unset: { 'meds' : { 'name' : req.body.name } } },
-          function(err, data){
-          console.log('=======saved=======', data);
-          if( err ) console.log(err);
-    });
+    // User.findByIdAndUpdate(
+    //       req.user._id,
+    //       { $unset: { 'meds' : { 'name' : req.body.name } } },
+    //       function(err, data){
+    //       console.log('=======saved=======', data);
+    //       if( err ) console.log(err);
+    // });
 
   });
 

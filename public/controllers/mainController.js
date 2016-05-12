@@ -132,15 +132,15 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
 
         // compares the last time the med was taken to the next time the med should be taken by adding together
         // the last time taken and the amount of time between dosages
-        if ($scope.meds != undefined) {
-          for (var i = 0; i < $scope.meds.length; i++) {
-            console.log('running for loop');
-            if ($scope.meds[i].lastTimeTaken >= $scope.meds[i].lastTimeTaken + $scope.meds[i].tillNext) {
-              $scope.meds[i].taken = false;
-              console.log('it works', $scope.meds[i].taken);
-            };
-          };
-        };
+        // if ($scope.meds != undefined) {
+        //   for (var i = 0; i < $scope.meds.length; i++) {
+        //     console.log('running for loop');
+        //     if ($scope.meds[i].lastTimeTaken >= $scope.meds[i].lastTimeTaken + $scope.meds[i].tillNext) {
+        //       $scope.meds[i].taken = false;
+        //       console.log('it works', $scope.meds[i].taken);
+        //     };
+        //   };
+        // };
 
 
       // Chart.js Data
@@ -238,6 +238,7 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
       $scope.addMed = function(user) {
         //adds new med to front end med array
         $scope.meds.push(user.meds);
+        console.log($scope.meds);
         //hides add med form after submition
         $scope.one = false;
         console.log(user.meds.frequency.timeFrequency);
@@ -255,12 +256,17 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
 
       //DELETES MED
       $scope.deleteMed = function($index) {
+        var toBeDeleted = $scope.meds[$index];
         //removes deleted med from front end array
-        $scope.meds.splice($index);
+        console.log('element index ', $index);
+        console.log('before', $scope.meds.length);
+        $scope.meds.splice($index, 1);
+        console.log('after', $scope.meds.length);
         //hides the individual delete buttons
         $scope.delete = false;
+        console.log('post', toBeDeleted);
         //sends post request to remove delete med from current meds and add to past meds list
-        $http.post('/createTakenMed', $scope.meds[$index]).
+        $http.post('/createCompletedMed', toBeDeleted).
             success(function(data) {
               console.log('this is success data: ', data.meds);
            }).
