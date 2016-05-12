@@ -123,7 +123,7 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
     $http.get('/json').
         success(function(data){
           $scope.meds = data.meds;
-          console.log('original array: ', $scope.meds);
+          // console.log('original array: ', $scope.meds);
         }).
         error(function(err){
           console.log(err);
@@ -187,9 +187,10 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
 
       };
 
-      $scope.takenMed = function($ind) {
-        console.log('med is clicked');
-      }
+      $scope.takenMed = function($index) {
+        ($scope.meds[$index].taken) ? $scope.meds[$index].taken = false : $scope.meds[$index].taken = true;
+        console.log('med after clicked', $scope.meds[$index].taken);
+      };
 
       $scope.one = false;
       $scope.showOne = function() {
@@ -239,5 +240,6 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
            });
 
      };
+
 
 }]);

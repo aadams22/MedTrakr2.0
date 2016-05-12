@@ -53,7 +53,8 @@ module.exports = function(app, passport, mongoose) {
                   'quantity':   parseInt(req.body.quantity),
                   'refills':    parseInt(req.body.refills),
                   'pharmacy':   capitalizeFirstLetter(req.body.pharmacy),
-                  'contact':    parseInt(req.body.contact)
+                  'contact':    parseInt(req.body.contact),
+                  'taken':      false
                 }
     User.findByIdAndUpdate(
           req.user._id,
