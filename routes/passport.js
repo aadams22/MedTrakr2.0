@@ -101,18 +101,17 @@ module.exports = function(app, passport, mongoose) {
   app.put('/takenMed', function(req,res){
     console.log('=====++++takenMed++++=====', req.body);
     console.log('=====++++lastTimeTake: ', req.body.lastTimeTaken);
-    // User.findByIdAndUpdate(
-    //       req.user._id,
-    //       { $set: { 'meds' : { 'taken' : req.body.taken, 'lastTimeTaken' : req.body.lastTimeTaken } } },
-    //       function(err, data){
-    //       console.log('=======saved=======', data);
-    //       if( err ) console.log(err);
-    // });
 
     User.findOne({ _id : req.user._id, "meds._id" : req.body._id }, function(err,data) {
       console.log(data);
       if( err ) console.log(err);
+      var subDocument = data.meds.id(req.body._id);
+      subDocument.taken = true;
+      console.log(subDocument);
 
+      data.save(function(err) {
+        if( err ) console.log(err);
+      });
     });
 
 
