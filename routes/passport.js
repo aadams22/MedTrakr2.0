@@ -100,21 +100,24 @@ module.exports = function(app, passport, mongoose) {
 
   app.put('/takenMed', function(req,res){
     console.log('=====++++takenMed++++=====', req.body);
-    console.log('=====++++lastTimeTake: ', req.body.lastTimeTaken);
 
     User.findOne({ _id : req.user._id, "meds._id" : req.body._id }, function(err,data) {
       console.log(data);
       if( err ) console.log(err);
+      //find the associated medication that has been sent from front end
       var subDocument = data.meds.id(req.body._id);
+      //sets the taken variable to true because pill has been taken
       subDocument.taken = true;
+      //subtracts one from total pills in bottle if the quantity is greater than 0
+      if(subDocument.quantity > 0) { subDocument.quantity -= 1; }
+      //stores the last time the med was taken in milleseconds
+      subDocument.lastTimeTaken = req.body.lastTimeTaken;
       console.log(subDocument);
-
+      //saves modified data
       data.save(function(err) {
         if( err ) console.log(err);
       });
     });
-
-
 
 
   });

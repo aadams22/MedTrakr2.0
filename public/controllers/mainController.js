@@ -33,7 +33,7 @@ app.controller('AuthController', ['$scope', '$http', '$location', function($scop
     $scope.alert = '';
     $scope.logoutbutton = false;
 
-
+    //sign up user information
     var validation = {
         isEmailAddress:function(str) {
             var pattern =/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -55,18 +55,25 @@ app.controller('AuthController', ['$scope', '$http', '$location', function($scop
 
     //callback used for validating user signup information returns message to user to define the issue
     function userValidation(user) {
+      //email validates that field is not empty
       if (!validation.isNotEmpty(user.email)) { return $scope.alert = 'Please add an email.' }
+      //first name validates that field is not empty
       else if (!validation.isNotEmpty(user.firstname)) { return $scope.alert = 'Please add your first name.' }
+      //last name validates that field is not empty
       else if (!validation.isNotEmpty(user.lastname)) { return  $scope.alert = 'Please add your last name.' }
+      //email validates real email address
       else if (!validation.isEmailAddress(user.email)) { return $scope.alert = 'Enter valid email.' }
+      //last name validates that field is not empty
       else if (!validation.hasNumber(user.password)) { return $scope.alert = 'Password must include a number.' }
+      //checks that password has more than 8 characters
       else if (user.password.length < 8) { return $scope.alert = 'Your password must be at least 8 characters long.' }
+      //checks that both passwords are the same
       else if (!validation.isSame(user.password,user.password_verify)) { return $scope.alert = 'Your passwords don\'t match.' }
+      //if all these are true than the function returns true;
       else { return true };
     }
 
     //LOGIN REQUEST
-
     $scope.login = function(user){
         $http.post('/login', user).
             success(function(data) {
@@ -102,6 +109,7 @@ app.controller('AuthController', ['$scope', '$http', '$location', function($scop
             .success(function() {
                 $scope.loggeduser = {};
                 $scope.logout
+                //redirects to the sign in page
                 $location.path('/signin');
             })
             .error(function() {
@@ -123,8 +131,8 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
 
     $http.get('/json').
         success(function(data){
+          //sets the users current meds to an array
           $scope.meds = data.meds;
-          // console.log('original array: ', $scope.meds);
         }).
         error(function(err){
           console.log(err);
@@ -201,10 +209,8 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
       };
 
       $scope.takenMed = function($index) {
-        console.log(d);
-        console.log($scope.meds[$index].tillNext);
-        console.log($scope.meds[$index].lastTimeTaken);
-        console.log($scope.meds[$index]);
+        console.log('current date: ', d);
+        console.log('taken med: ', $scope.meds[$index]);
         //sets the front end meds array taken value according to click
         $scope.meds[$index].taken = $scope.meds[$index].taken = true;
         //sets the last time taken to the current time and date
