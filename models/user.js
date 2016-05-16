@@ -29,6 +29,7 @@ var userSchema = new Schema({
                      },
           directions: { type: String },
           quantity: { type: Number },
+          originalQuantity: { type: Number },
           refills: { type: Number },
           pharmacy: { type: String },
           contact: { type: Number },

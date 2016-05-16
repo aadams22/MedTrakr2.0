@@ -53,19 +53,20 @@ module.exports = function(app, passport, mongoose) {
     else if(req.body.frequency.timeFrequency == 'every other day') { nextTime *= (h * 2); };
     console.log('3. time frequency', typeof nextTime);
     var newMed = {
-                  'name':       capitalizeFirstLetter(req.body.name),
+                  'name':             capitalizeFirstLetter(req.body.name),
                   'frequency': {
                               'quantityFrequency': parseInt(req.body.frequency.quantityFrequency),
-                              'timeFrequency': req.body.frequency.timeFrequency
+                              'timeFrequency':     req.body.frequency.timeFrequency
                               },
-                  'directions': capitalizeFirstLetter(req.body.directions),
-                  'quantity':   parseInt(req.body.quantity),
-                  'refills':    parseInt(req.body.refills),
-                  'pharmacy':   capitalizeFirstLetter(req.body.pharmacy),
-                  'contact':    parseInt(req.body.contact),
-                  'taken':      false,
-                  'tillNext':   nextTime,
-                  'lastTimeTaken': 0
+                  'directions':       capitalizeFirstLetter(req.body.directions),
+                  'quantity':         parseInt(req.body.quantity),
+                  'originalQuantity': parseInt(req.body.quantity),
+                  'refills':          parseInt(req.body.refills),
+                  'pharmacy':         capitalizeFirstLetter(req.body.pharmacy),
+                  'contact':          parseInt(req.body.contact),
+                  'taken':            false,
+                  'tillNext':         nextTime,
+                  'lastTimeTaken':    0
                 }
     User.findByIdAndUpdate(
           req.user._id,

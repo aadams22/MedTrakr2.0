@@ -1,25 +1,21 @@
 var app = angular.module('medTrakrApp', ['ngRoute', 'tc.chartjs']);
 
 
-app.controller('MainController', [function(){
-
-}]);
-
 //route configuration to set partials for authentication
 app.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
       when('/signin', {
           templateUrl: './partials/signin.html',
-          controller: 'AuthController'
+          controller: 'MainController'
       }).
       when('/signup', {
           templateUrl: './partials/signup.html',
-          controller: 'AuthController'
+          controller: 'MainController'
       }).
       when('/user', {
           templateUrl: './partials/user.html',
-          controller: 'AuthController'
+          controller: 'MainController'
       }).
       otherwise({
           redirectTo: '/signin'
@@ -27,11 +23,12 @@ app.config(['$routeProvider',
 }]);
 
 
-app.controller('AuthController', ['$scope', '$http', '$location', function($scope,$http,$location) {
+app.controller('MainController', ['$scope', '$http', '$location', function($scope,$http,$location) {
 
     $scope.user  = { email:'', password:'', firstName:'' };
+    console.log($scope.user);
     $scope.alert = '';
-    $scope.logoutbutton = false;
+    $scope.logoutButton = false;
 
     //sign up user information
     var validation = {
@@ -78,7 +75,7 @@ app.controller('AuthController', ['$scope', '$http', '$location', function($scop
         $http.post('/login', user).
             success(function(data) {
                 $scope.loggeduser = data;
-                $scope.logoutbutton = true;
+                $scope.logoutButton = true;
                 $location.path('/user');
             }).
             error(function() {
@@ -117,11 +114,11 @@ app.controller('AuthController', ['$scope', '$http', '$location', function($scop
             });
     };
 
-    $scope.showLogout = function() {
-      console.log('1. show logout', $scope.logoutbutton);
-      $scope.logoutbutton = true;
-      console.log('2. show logout', $scope.logoutbutton);
-    };
+    // $scope.showLogout = function() {
+    //   console.log('1. show logout', $scope.logoutButton);
+      // $scope.logoutButton = true;
+    //   console.log('2. show logout', $scope.logoutButton);
+    // };
 
 }]);
 
@@ -151,27 +148,7 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
         // };
 
 
-      // Chart.js Data
-      $scope.data = [
-        {
-          value: 300,
-          color:'#F7464A',
-          highlight: '#FF5A5E',
-          label: 'Medication'
-        },
-        {
-          value: 50,
-          color: '#46BFBD',
-          highlight: '#5AD3D1',
-          label: 'Frequency'
-        },
-        {
-          value: 100,
-          color: '#FDB45C',
-          highlight: '#FFC870',
-          label: 'Till Empty'
-        }
-      ];
+
 
       // Chart.js Options
       $scope.options =  {
@@ -226,6 +203,33 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
 
       };
 
+
+      $scope.getMedInfo = function($index) {
+        $scope.displayedMed = "";
+        $scope.displayedMed = $scope.meds[$index];
+        console.log($scope.displayedMed);
+        // Chart.js Data
+        $scope.data = [
+          {
+            value: parseInt($scope.displayedMed.quantity / $scope.displayedMed.originalQuantity),
+            color:'#F7464A',
+            highlight: '#FF5A5E',
+            label: 'Till Empty'
+          },
+          {
+            value: 50,
+            color: '#46BFBD',
+            highlight: '#5AD3D1',
+            label: 'Frequency'
+          },
+          {
+            value: 100,
+            color: '#FDB45C',
+            highlight: '#FFC870',
+            label: 'Medication'
+          }
+        ];
+      };
 
       //sets the individual delete buttons ng-show to false
       $scope.delete = false;

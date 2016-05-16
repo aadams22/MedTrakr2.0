@@ -32,7 +32,7 @@
 <div class="current-wrapper">
   <div id="current-meds">
     <table>
-      <tr ng-repeat="med in meds">
+      <tr ng-repeat="med in meds" ng-click="getMedInfo($index)">
         <td ng-show="delete" ng-click="deleteMed($index)"><div class="delete-med">&#xE801</div></td>
         <td>{{ med.name }}</td>
         <td>Take {{ med.frequency.quantityFrequency }} {{ med.frequency.timeFrequency }}</td>
@@ -46,5 +46,9 @@
   <div id="current-meds-chart">
       <canvas tc-chartjs-doughnut chart-options="options" chart-data="data" auto-legend></canvas>
   </div>
-
+  <ul id="current-meds-chart">
+    <li>{{ displayedMed.directions }}</li>
+    <li>Pharmacy: {{ displayedMed.pharmacy }}</li>
+    <li>Pharmacy Contact: {{ displayedMed.contact }}</li>
+  </ul>
 </div>
