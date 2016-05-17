@@ -16,10 +16,15 @@ module.exports = function(app, passport, mongoose) {
 
 
   //Local Strategy authentication
-  passport.use(new LocalStrategy(
-    function (email, password, done) {
-
+  passport.use(new LocalStrategy({
+        usernameField: 'email',
+        passwordField: 'password',
+        passReqToCallback: true
+    },
+    function (data, email, password, done) {
+      
         User.findOne({ email : email }, function (err, user) {
+            console.log(user);
             if (err) { return done(err); }
 
             if (!user) return done(null, false, {alert: 'Incorrect email.'});
@@ -28,6 +33,7 @@ module.exports = function(app, passport, mongoose) {
                 return done(null, false, { alert: 'Incorrect password.' });
             }
             return done(null, user);
+            console.log(user);
         });
     }
 
@@ -45,13 +51,13 @@ module.exports = function(app, passport, mongoose) {
       user.firstName = req.body.firstname;
 
 
-        user.save(function(err){
-            if (err) {
-                res.json({ 'alert' : 'Registration error' });
-            }else{
-                res.json({ 'alert' : 'Registration success! Please proceed to login.' });
-            }
-        });
+      user.save(function(err){
+          if (err) {
+              res.json({ 'alert' : 'Registration error' });
+          }else{
+              res.json({ 'alert' : 'Registration success! Please proceed to login.' });
+          }
+      });
 
 
 
@@ -59,9 +65,11 @@ module.exports = function(app, passport, mongoose) {
 
   //LOCAL LOGIN
   app.post('/login',
-    passport.authenticate('local', { failureRedirect: '/' }),
-    function(req,res){ res.json(req.user);
+    passport.authenticate('local', { failureRedirect : '/' }),
+    function(req,res){
+      res.json(req.user);
   });
+
 
 
 }

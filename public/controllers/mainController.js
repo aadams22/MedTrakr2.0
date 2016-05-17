@@ -25,10 +25,9 @@ app.config(['$routeProvider',
 
 app.controller('MainController', ['$scope', '$http', '$location', function($scope,$http,$location) {
 
-    $scope.user  = { email:'', password:'', firstName:'' };
-    console.log($scope.user);
     $scope.alert = '';
-    $scope.logoutButton = false;
+    if ($scope.loggeduser) { $scope.logoutButton = true; }
+    else{ $scope.logoutButton = false; }
 
     //sign up user information
     var validation = {
@@ -72,10 +71,14 @@ app.controller('MainController', ['$scope', '$http', '$location', function($scop
 
     //LOGIN REQUEST
     $scope.login = function(user){
+      console.log(user);
         $http.post('/login', user).
             success(function(data) {
                 $scope.loggeduser = data;
+                $scope.meds = $scope.loggeduser.meds;
+                console.log('this is loggeduser: ', $scope.meds);
                 $scope.logoutButton = true;
+                console.log($scope.logoutButton);
                 $location.path('/user');
             }).
             error(function() {
@@ -116,7 +119,7 @@ app.controller('MainController', ['$scope', '$http', '$location', function($scop
 
     // $scope.showLogout = function() {
     //   console.log('1. show logout', $scope.logoutButton);
-      // $scope.logoutButton = true;
+    //   $scope.logoutButton = true;
     //   console.log('2. show logout', $scope.logoutButton);
     // };
 
@@ -126,26 +129,28 @@ app.controller('MainController', ['$scope', '$http', '$location', function($scop
 app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http){
     var d = Date.now();
 
-    $http.get('/json').
-        success(function(data){
-          //sets the users current meds to an array
-          $scope.meds = data.meds;
-        }).
-        error(function(err){
-          console.log(err);
-        });
+
+    // $http.get('/json').
+    //     success(function(data){
+    //       //sets the users current meds to an array
+    //       $scope.meds = data.meds;
+    //       console.log($scope.meds);
+    //     }).
+    //     error(function(err){
+    //       console.log(err);
+    //     });
 
         // compares the last time the med was taken to the next time the med should be taken by adding together
         // the last time taken and the amount of time between dosages
-        // if ($scope.meds != undefined) {
-        //   for (var i = 0; i < $scope.meds.length; i++) {
-        //     console.log('running for loop');
-        //     if ($scope.meds[i].lastTimeTaken >= $scope.meds[i].lastTimeTaken + $scope.meds[i].tillNext) {
-        //       $scope.meds[i].taken = false;
-        //       console.log('it works', $scope.meds[i].taken);
-        //     };
-        //   };
-        // };
+        if ($scope.meds != undefined) {
+          for (var i = 0; i < $scope.meds.length; i++) {
+            console.log('running for loop');
+            if ($scope.meds[i].lastTimeTaken >= $scope.meds[i].lastTimeTaken + $scope.meds[i].tillNext) {
+              $scope.meds[i].taken = false;
+              console.log('it works', $scope.meds[i].taken);
+            };
+          };
+        };
 
 
 
