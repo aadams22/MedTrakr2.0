@@ -26,8 +26,7 @@ app.config(['$routeProvider',
 app.controller('MainController', ['$scope', '$http', '$location', function($scope,$http,$location) {
 
     $scope.alert = '';
-    if ($scope.loggeduser) { $scope.logoutButton = true; }
-    else{ $scope.logoutButton = false; }
+    console.log($scope.loggeduser);
 
     //sign up user information
     var validation = {
@@ -75,10 +74,8 @@ app.controller('MainController', ['$scope', '$http', '$location', function($scop
         $http.post('/login', user).
             success(function(data) {
                 $scope.loggeduser = data;
-                $scope.meds = $scope.loggeduser.meds;
-                console.log('this is loggeduser: ', $scope.meds);
-                $scope.logoutButton = true;
-                console.log($scope.logoutButton);
+                console.log('this is loggeduser: ', $scope.loggeduser);
+                //redirects to user
                 $location.path('/user');
             }).
             error(function() {
@@ -117,11 +114,7 @@ app.controller('MainController', ['$scope', '$http', '$location', function($scop
             });
     };
 
-    // $scope.showLogout = function() {
-    //   console.log('1. show logout', $scope.logoutButton);
-    //   $scope.logoutButton = true;
-    //   console.log('2. show logout', $scope.logoutButton);
-    // };
+
 
 }]);
 
@@ -130,15 +123,15 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
     var d = Date.now();
 
 
-    // $http.get('/json').
-    //     success(function(data){
-    //       //sets the users current meds to an array
-    //       $scope.meds = data.meds;
-    //       console.log($scope.meds);
-    //     }).
-    //     error(function(err){
-    //       console.log(err);
-    //     });
+    $http.get('/json').
+        success(function(data){
+          //sets the users current meds to an array
+          $scope.meds = data.meds;
+          console.log($scope.meds);
+        }).
+        error(function(err){
+          console.log(err);
+        });
 
         // compares the last time the med was taken to the next time the med should be taken by adding together
         // the last time taken and the amount of time between dosages
@@ -197,6 +190,8 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
         $scope.meds[$index].taken = $scope.meds[$index].taken = true;
         //sets the last time taken to the current time and date
         $scope.meds[$index].lastTimeTaken = d;
+        //subtracts one pill from quantity of pills in bottom from front end array
+        $scope.meds[$index].quantity -= 1;
         //sends taken med to back end
         $http.put('/takenMed', $scope.meds[$index]).
             success(function(data) {
@@ -208,32 +203,27 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
 
       };
 
+      // Chart.js Data
+      $scope.data = [
+        {
+          value: 100,
+          color:'#F7464A',
+          highlight: '#FF5A5E',
+          label: 'Amount left to take'
+        },
+        {
+          value: 200,
+          color: '#FDB45C',
+          highlight: '#FFC870',
+          label: 'Amount taken'
+        }
+      ];
 
       $scope.getMedInfo = function($index) {
         $scope.displayedMed = "";
         $scope.displayedMed = $scope.meds[$index];
-        console.log($scope.displayedMed);
-        // Chart.js Data
-        $scope.data = [
-          {
-            value: parseInt($scope.displayedMed.quantity / $scope.displayedMed.originalQuantity),
-            color:'#F7464A',
-            highlight: '#FF5A5E',
-            label: 'Till Empty'
-          },
-          {
-            value: 50,
-            color: '#46BFBD',
-            highlight: '#5AD3D1',
-            label: 'Frequency'
-          },
-          {
-            value: 100,
-            color: '#FDB45C',
-            highlight: '#FFC870',
-            label: 'Medication'
-          }
-        ];
+        $scope.data[0].value = parseInt($scope.displayedMed.quantity);
+        $scope.data[1].value = parseInt($scope.displayedMed.originalQuantity) - parseInt($scope.displayedMed.quantity);
       };
 
       //sets the individual delete buttons ng-show to false
