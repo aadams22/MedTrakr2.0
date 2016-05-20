@@ -270,7 +270,7 @@ td > div {
 #new-med-form > form > input:last-child { background-color: #4a8ddb; }
 #new-med-form > form > input:last-child:hover { opacity: .5; }
 
-
+#current-meds-chart > li { padding: 0; }
 
 /*=========================================================================*/
 @media screen and (min-width: 480px) {

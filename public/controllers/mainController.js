@@ -15,7 +15,7 @@ app.config(['$routeProvider',
       }).
       when('/user', {
           templateUrl: './partials/user.html',
-          controller: 'MainController'
+          controller: 'MainController',
       }).
       otherwise({
           redirectTo: '/signin'
@@ -206,13 +206,13 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
       // Chart.js Data
       $scope.data = [
         {
-          value: 100,
+          value: 0,
           color:'#F7464A',
           highlight: '#FF5A5E',
           label: 'Amount left to take'
         },
         {
-          value: 200,
+          value: 0,
           color: '#FDB45C',
           highlight: '#FFC870',
           label: 'Amount taken'
@@ -220,9 +220,13 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
       ];
 
       $scope.getMedInfo = function($index) {
+        //resets the displayedMed value to null;
         $scope.displayedMed = "";
+        //sets the displayedMed value to the med that matches the index
         $scope.displayedMed = $scope.meds[$index];
+        //sets the chart data value at [0] to the quantity of pills left to take
         $scope.data[0].value = parseInt($scope.displayedMed.quantity);
+        //sets the chart data value at [1] to the quantity of pills taken
         $scope.data[1].value = parseInt($scope.displayedMed.originalQuantity) - parseInt($scope.displayedMed.quantity);
       };
 
