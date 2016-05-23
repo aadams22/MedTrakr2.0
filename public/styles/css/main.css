@@ -251,7 +251,7 @@ td > div {
 .button:hover { opacity: .5;}
 
 #current-meds-chart {
-  border: 1px solid darkgrey;
+  border: 1px solid grey;
   width: 400px;
 }
 
@@ -270,7 +270,8 @@ td > div {
 #new-med-form > form > input:last-child { background-color: #4a8ddb; }
 #new-med-form > form > input:last-child:hover { opacity: .5; }
 
-#current-meds-chart > li { padding: 0; }
+#displayed-med-info { background-color: lightgrey; }
+#displayed-med-info > td > div { background-color: lightgrey; font-family: close-icon; }
 
 /*=========================================================================*/
 @media screen and (min-width: 480px) {

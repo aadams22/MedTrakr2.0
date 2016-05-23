@@ -26,7 +26,6 @@ app.config(['$routeProvider',
 app.controller('MainController', ['$scope', '$http', '$location', '$rootScope', function($scope,$http,$location,$rootScope) {
 
     $scope.alert = '';
-    console.log($rootScope.loggeduser);
 
     //sign up user information
     var validation = {
@@ -248,15 +247,24 @@ app.controller('CurrentMedController', ['$scope', '$http', '$location', '$rootSc
       ];
 
       $scope.getMedInfo = function($index) {
-        //resets the displayedMed value to null;
-        $scope.displayedMed = "";
-        //sets the displayedMed value to the med that matches the index
-        $scope.displayedMed = $scope.meds[$index];
-        //sets the chart data value at [0] to the quantity of pills left to take
-        $scope.data[0].value = parseInt($scope.displayedMed.quantity);
-        //sets the chart data value at [1] to the quantity of pills taken
-        $scope.data[1].value = parseInt($scope.displayedMed.originalQuantity) - parseInt($scope.displayedMed.quantity);
+        console.log('this is displayed med: ', $scope.displayedMed);
+        if($scope.displayedMed == $scope.meds[$index]) {
+          //resets the displayedMed value to null;
+          $scope.displayedMed = null;    
+        }else{
+          //resets the displayedMed value to null;
+          $scope.displayedMed = "";
+          //sets the displayedMed value to the med that matches the index
+          $scope.displayedMed = $scope.meds[$index];
+          //sets the chart data value at [0] to the quantity of pills left to take
+          $scope.data[0].value = parseInt($scope.displayedMed.quantity);
+          //sets the chart data value at [1] to the quantity of pills taken
+          $scope.data[1].value = parseInt($scope.displayedMed.originalQuantity) - parseInt($scope.displayedMed.quantity);
+
+        }
       };
+
+
 
       //sets the individual delete buttons ng-show to false
       $scope.delete = false;

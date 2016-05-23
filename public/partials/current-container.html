@@ -38,6 +38,11 @@
         <td>Take {{ med.frequency.quantityFrequency }} {{ med.frequency.timeFrequency }}</td>
         <td><div ng-class="{ 'taken': med.taken, 'not-taken': !med.taken }" ng-click="takenMed($index)">&#xE801</div></td>
       </tr>
+      <tr id="displayed-med-info" ng-show="displayedMed">
+        <td>{{ displayedMed.directions }}</td>
+        <td>Pharmacy: {{ displayedMed.pharmacy }}</td>
+        <td>Pharmacy Contact: {{ displayedMed.contact }}</td>
+      </tr>
     </table>
   <div class="add button" ng-click="showOne()">&#xE801</div>
   <div class="delete button" ng-click="showDelete()">&#xE801</div>
@@ -46,9 +51,4 @@
   <div id="current-meds-chart">
       <canvas tc-chartjs-doughnut chart-options="options" chart-data="data" auto-legend></canvas>
   </div>
-  <ul id="current-meds-chart">
-    <li>{{ displayedMed.directions }}</li>
-    <li>Pharmacy: {{ displayedMed.pharmacy }}</li>
-    <li>Pharmacy Contact: {{ displayedMed.contact }}</li>
-  </ul>
 </div>
