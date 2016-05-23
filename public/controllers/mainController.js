@@ -23,10 +23,10 @@ app.config(['$routeProvider',
 }]);
 
 
-app.controller('MainController', ['$scope', '$http', '$location', function($scope,$http,$location) {
+app.controller('MainController', ['$scope', '$http', '$location', '$rootScope', function($scope,$http,$location,$rootScope) {
 
     $scope.alert = '';
-    console.log($scope.loggeduser);
+    console.log($rootScope.loggeduser);
 
     //sign up user information
     var validation = {
@@ -73,10 +73,11 @@ app.controller('MainController', ['$scope', '$http', '$location', function($scop
       console.log(user);
         $http.post('/login', user).
             success(function(data) {
-                $scope.loggeduser = data;
-                console.log('this is loggeduser: ', $scope.loggeduser);
                 //redirects to user
                 $location.path('/user');
+                //the data from the current user
+                $rootScope.loggeduser = data;
+                console.log('this is loggeduser: ', $scope.loggeduser);
             }).
             error(function() {
                 $scope.alert = 'Login failed'
@@ -104,7 +105,11 @@ app.controller('MainController', ['$scope', '$http', '$location', function($scop
     $scope.logout = function(){
         $http.get('/logout')
             .success(function() {
-                $scope.loggeduser = {};
+                //hides logout button
+                $scope.logoutButton = false;
+                //clears the current user's information
+                $rootScope.loggeduser = {};
+                //logs user out
                 $scope.logout
                 //redirects to the sign in page
                 $location.path('/signin');
@@ -115,36 +120,58 @@ app.controller('MainController', ['$scope', '$http', '$location', function($scop
     };
 
 
+    $scope.$on('$routeChangeSuccess', function(next, current) {
+      if($location.path() == '/user') {
+        $scope.logoutButton = true;
+      }
+    });
+
 
 }]);
 
 
-app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http){
+app.controller('CurrentMedController', ['$scope', '$http', '$location', '$rootScope', function($scope,$http,$location,$rootScope){
     var d = Date.now();
 
+    $scope.setMedArray = function(){
+      $scope.meds = '';
+      console.log('running setMedArray: ', $scope.meds);
+      $http.get('/json').
+          success(function(data){
+            //sets the users current meds to an array
+            $scope.meds = data.meds;
+            console.log('$scope.meds: after get', $scope.meds);
+          }).
+          error(function(err){
+            console.log(err);
+          });
 
-    $http.get('/json').
-        success(function(data){
-          //sets the users current meds to an array
-          $scope.meds = data.meds;
-          console.log($scope.meds);
-        }).
-        error(function(err){
-          console.log(err);
-        });
+    };
 
+    //runs function when route changes to user, ie user is logged in
+    $scope.$on('$routeChangeSuccess', function(next, current) {
+      //actions to take when user is logged in
+      if($location.path() == '/user') {
+        //sets the med array to include current data
+        $scope.setMedArray();
         // compares the last time the med was taken to the next time the med should be taken by adding together
         // the last time taken and the amount of time between dosages
         if ($scope.meds != undefined) {
           for (var i = 0; i < $scope.meds.length; i++) {
-            console.log('running for loop');
+            // console.log('running for loop');
             if ($scope.meds[i].lastTimeTaken >= $scope.meds[i].lastTimeTaken + $scope.meds[i].tillNext) {
               $scope.meds[i].taken = false;
-              console.log('it works', $scope.meds[i].taken);
+              // console.log('it works', $scope.meds[i].taken);
             };
           };
         };
 
+      }
+      //removes meds from view when user logs out
+      if($location.path() != '/user') {
+        $scope.meds = '';
+      }
+    });
 
 
 
@@ -196,11 +223,12 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
         $http.put('/takenMed', $scope.meds[$index]).
             success(function(data) {
               console.log('this is success data: ', data.meds);
+              //resets the med array to include current data
+              $scope.setMedArray();
            }).
            error(function(err) {
                console.log(err);
            });
-
       };
 
       // Chart.js Data
@@ -253,9 +281,6 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
       $scope.addMed = function(user) {
         console.log('1. this is user.meds ', user.meds);
         console.log('2. this is $scope.meds ', $scope.meds);
-        //adds new med to front end med array
-        $scope.meds.push(user.meds);
-        console.log('3. this is $scope.meds after push', $scope.meds);
         //hides add med form after submition
         $scope.one = false;
         //sends newly created med to server to save in database
@@ -267,6 +292,8 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
                 // $scope.formAlert = 'Oops! Something went wrong! Refresh and try again.'
                 console.log('!!this is addMed error: ', err);
             });
+          //resets the med array to include current data
+          $scope.setMedArray();
       };
 
       //DELETES MED
@@ -285,7 +312,8 @@ app.controller('CurrentMedController', ['$scope', '$http', function($scope,$http
            error(function(err) {
                console.log(err);
            });
-
+         //resets the med array to include current data
+         $scope.setMedArray();
      };
 
 

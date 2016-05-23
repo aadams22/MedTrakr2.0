@@ -80,6 +80,8 @@ module.exports = function(app, passport, mongoose) {
 
   app.put('/createCompletedMed', function(req,res){
     console.log('=======createCompletedMed accessed:========', req.body);
+    //!! should unify these two into one action !!
+
     User.findByIdAndUpdate(
           req.user._id,
           { $push: { 'completedMeds':  req.body } },
@@ -101,9 +103,9 @@ module.exports = function(app, passport, mongoose) {
 
   app.put('/takenMed', function(req,res){
     console.log('=====++++takenMed++++=====', req.body);
-
+    console.log('=====++++user++++=====', req.user._id);
     User.findOne({ _id : req.user._id, "meds._id" : req.body._id }, function(err,data) {
-      console.log(data);
+      console.log('returned data: ', data);
       if( err ) console.log(err);
       //find the associated medication that has been sent from front end
       var subDocument = data.meds.id(req.body._id);
