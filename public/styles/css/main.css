@@ -186,8 +186,8 @@ a {
 
 table {
   /*border: 1px solid red;*/
-	border-collapse: collapse;
-	padding: 1em;
+  border-collapse: collapse;
+  padding: 1em;
   width: 400px;
 }
 

@@ -1,27 +1,24 @@
 <section id="signupbox">
   <div class="login-container">
-  <h2 class="title">Sign Up</h2>
-  <h3><a ng-href="#/signin"><span>&#xE801</span> Log In</a></h3>
+    <h2 class="title">Sign Up</h2>
+    <h3><a ng-href="#/signin"><span>&#xE801</span> Log In</a></h3>
 
-      <form id="signupform" class="form-horizontal" role="form">
+    <form id="signupform" class="form-horizontal" role="form">
 
-        <div id="signupalert" ng-show="alert" class="alert alert-info">
-          <span>{{alert}}</span>
-        </div>
+      <div id="signupalert" ng-show="alert" class="alert alert-info">
+        <span>{{alert}}</span>
+      </div>
 
+        <input type="text" ng-model="user.email" placeholder=" &#xE800  Email Address"><br/>
+        <input type="text" ng-model="user.firstname" placeholder=" &#xE803  First Name"><br/>
+        <input type="text" ng-model="user.lastname" placeholder=" &#xE803  Last Name"><br/>
+        <input type="password" name="password" ng-model="user.password" placeholder=" &#xE802  Password" required><br/>
+        <input type="password" ng-model="user.password_verify" name="confirm_password" placeholder=" &#xE802  Confirm Password" required data-password-verify="user.password"><br/>
+        <label for="password">Password must be at least 8 characters and include a number.</label>
+        <button id="btn-signup" type="button" ng-click="signup(user)"><i class="icon-hand-right"></i> &nbsp Sign Up</button>
 
-          <input type="text" ng-model="user.email" placeholder=" &#xE800  Email Address"><br/>
-          <input type="text" ng-model="user.firstname" placeholder=" &#xE803  First Name"><br/>
-          <input type="text" ng-model="user.lastname" placeholder=" &#xE803  Last Name"><br/>
-          <input type="password" name="password" ng-model="user.password" placeholder=" &#xE802  Password" required><br/>
-          <input type="password" ng-model="user.password_verify" name="confirm_password" placeholder=" &#xE802  Confirm Password" required data-password-verify="user.password"><br/>
-          <label for="password">Password must be at least 8 characters and include a number.</label>
-          <button id="btn-signup" type="button" ng-click="signup(user)"><i class="icon-hand-right"></i> &nbsp Sign Up</button>
+      <div class="facebook"><a href="/login/facebook">Sign Up with Facebook</a></div>
 
-
-        <div class="facebook"><a href="/login/facebook">Sign Up with Facebook</a></div>
-
-      </form>
-
-</div>
+    </form>
+  </div>
 </section>
