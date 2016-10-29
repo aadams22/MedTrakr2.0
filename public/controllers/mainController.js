@@ -125,6 +125,12 @@ app.controller('MainController', ['$scope', '$http', '$location', '$rootScope', 
       }
     });
 
+    $scope.help = false;
+    $scope.showHelp = function() {
+      console.log('help clicked');
+      ($scope.help) ? $scope.help = false : $scope.help = true;
+    };
+
 
 }]);
 

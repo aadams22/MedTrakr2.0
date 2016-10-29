@@ -13,7 +13,9 @@
     <div class="container">
         <ng-view></ng-view>
     </div>
-    <section ng-show="logoutButton" ng-controller="CurrentMedController as crtMedCtrl" id="current-container" ng-include src="'./partials/current-container.html' "></section>
+  <li ng-click="showHelp()" ng-include src="'./partials/help-box.html' ">Help</li>
+    <section ng-show="logoutButton" ng-controller="CurrentMedController as crtMedCtrl" id="current-container" ng-include src="'./partials/current-container.html' " ></section>
+
     <section id="pre-login-info"ng-hide="logoutButton" ng-include src="'./partials/pre-login-info.html' "></section>
 
     <script src="/bower_components/angular-route/angular-route.js"></script>

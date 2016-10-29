@@ -281,6 +281,14 @@ td > div {
 }
 #pre-login-info > p > span { font-size: 2em; font-weight: 200; }
 /*=========================================================================*/
+/*HELP*/
+#help {
+  padding: 1.5em;
+}
+#help > h2 {
+  text-align: center;
+}
+/*=========================================================================*/
 @media screen and (min-width: 480px) {
     .current-wrapper > div {
       display: inline-block;

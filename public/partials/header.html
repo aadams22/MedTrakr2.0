@@ -1,7 +1,7 @@
 <h1>MedTrakr</h1>
 <ul>
-	<li>Help</li>
-  <li><a href="#current-container">Current</a></li>
+	<li ng-click="showHelp()">Help</li>
+  <li ng-show="logoutButton"><a href="#current-container">Current</a></li>
   <!-- <li><a  href="#current-container">Past</a></li> -->
   <li ng-show="logoutButton" ng-click="logout()">Logout</li>
 </ul>
