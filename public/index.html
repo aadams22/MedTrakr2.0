@@ -13,7 +13,8 @@
     <div class="container">
         <ng-view></ng-view>
     </div>
-    <section ng-controller="CurrentMedController as crtMedCtrl" id="current-container" ng-include src="'./partials/current-container.html' "></section>
+    <section ng-show="logoutButton" ng-controller="CurrentMedController as crtMedCtrl" id="current-container" ng-include src="'./partials/current-container.html' "></section>
+    <section id="pre-login-info"ng-hide="logoutButton" ng-include src="'./partials/pre-login-info.html' "></section>
 
     <script src="/bower_components/angular-route/angular-route.js"></script>
     <script src="/bower_components/Chart.js/Chart.js"></script>
